@@ -1,8 +1,7 @@
 <template>
 	<view class="content">
-		<image class="logo" src="/static/logo.png"></image>
-		<view class="text-area">
-			<text class="title">{{title}}</text>
+		<view class="el-card">
+			<text>123</text>
 		</view>
 	</view>
 </template>
@@ -24,6 +23,7 @@
 </script>
 
 <style>
+	@import url('../../static/ElementUI/card.css');
 	.content {
 		display: flex;
 		flex-direction: column;
