@@ -1,9 +1,6 @@
 .container {
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 16rpx 8px 8rpx;
+	height: 100%;
+    padding: 16rpx 16rpx 16rpx;
     box-sizing: border-box;
+    width: 100%;
 }
