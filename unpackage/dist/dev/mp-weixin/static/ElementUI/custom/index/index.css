@@ -4,3 +4,18 @@
     box-sizing: border-box;
     width: 100%;
 }
+.flex{
+	display: flex;
+	align-items: center;
+}
+.scanimg{
+	height: 64rpx;
+	width: 64rpx;
+}
+.scantext{
+	font-size: 36rpx;
+	margin-left: 24rpx;
+}
+.center{
+	text-align: center;
+}

@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
-		<view class="el-card">
-			<text>123</text>
+		<view class="el-card flex">
+			<image class="scanimg" src="../../static/images/scan.png"></image>
+			<text class="scantext">扫码</text>
 		</view>
 	</view>
 </template>

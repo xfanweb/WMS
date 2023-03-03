@@ -3,7 +3,23 @@
     padding: 16rpx 16rpx 16rpx;
     box-sizing: border-box;
     width: 100%;
-} /* 自定义样式 */
+}
+.flex{
+	display: flex;
+	align-items: center;
+}
+.scanimg{
+	height: 64rpx;
+	width: 64rpx;
+}
+.scantext{
+	font-size: 36rpx;
+	margin-left: 24rpx;
+}
+.center{
+	text-align: center;
+}
+/* 自定义样式 */
 .el-button {
 	color: #fff;
 	background-color: #409eff;
@@ -38,5 +54,6 @@
     overflow: hidden;
     color: #303133;
     transition: .3s;
-} /* UI 样式 */
+}
+/* UI 样式 */
 
