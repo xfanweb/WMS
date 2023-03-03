@@ -1,13 +1,14 @@
 <template>
 	<view class="container">
-		<view class="el-card flex">
-			<image class="scanimg" src="../../static/images/scan.png"></image>
+		<view class="el-card flex" @click="scancode">
+			<image class="scanimg" src="../../static/Images/scan.png"></image>
 			<text class="scantext">扫码</text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {scancode} from '../../static/JS/custom/index/index.js';
 	export default {
 		data() {
 			return {
@@ -18,7 +19,7 @@
 
 		},
 		methods: {
-
+scancode
 		}
 	}
 </script>
