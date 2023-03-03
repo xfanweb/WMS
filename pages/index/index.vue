@@ -1,5 +1,5 @@
 <template>
-	<view class="content">
+	<view class="container">
 		<view class="el-card">
 			<text>123</text>
 		</view>
@@ -10,7 +10,7 @@
 	export default {
 		data() {
 			return {
-				title: 'Hello'
+				
 			}
 		},
 		onLoad() {
@@ -23,30 +23,6 @@
 </script>
 
 <style>
-	@import url('../../static/ElementUI/card.css');
-	.content {
-		display: flex;
-		flex-direction: column;
-		align-items: center;
-		justify-content: center;
-	}
-
-	.logo {
-		height: 200rpx;
-		width: 200rpx;
-		margin-top: 200rpx;
-		margin-left: auto;
-		margin-right: auto;
-		margin-bottom: 50rpx;
-	}
-
-	.text-area {
-		display: flex;
-		justify-content: center;
-	}
-
-	.title {
-		font-size: 36rpx;
-		color: #8f8f94;
-	}
+	@import url('../../static/ElementUI/custom/index/index.css'); // 自定义样式
+	@import url('../../static/ElementUI/UI/index.css'); // UI 样式
 </style>
