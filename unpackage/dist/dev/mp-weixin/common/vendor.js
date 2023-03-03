@@ -16895,13 +16895,13 @@ var _default = {
   "pages": [{
     "path": "pages/index/index",
     "style": {
-      "navigationBarTitleText": "uni-app"
+      "navigationBarTitleText": "相机出库管理"
     }
   }],
   "globalStyle": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "#FFFFFF",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#66b1ff",
     "backgroundColor": "#F8F8F8"
   },
   "uniIdRouter": {}

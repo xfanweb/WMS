@@ -4,9 +4,9 @@
   ],
   "subPackages": [],
   "window": {
-    "navigationBarTextStyle": "black",
+    "navigationBarTextStyle": "white",
     "navigationBarTitleText": "uni-app",
-    "navigationBarBackgroundColor": "#F8F8F8",
+    "navigationBarBackgroundColor": "#66b1ff",
     "backgroundColor": "#F8F8F8"
   },
   "usingComponents": {}
