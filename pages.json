@@ -1,4 +1,13 @@
 {
+		"easycom": {
+		        "autoscan": true,
+		        "custom": {
+		        	// uview-ui
+					"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue",
+		            // @dcloudio
+		            "^uni-(.*)": "@dcloudio/uniui/lib/uni-$1/uni-$1.vue"
+		        }
+		    },
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/index/index",
