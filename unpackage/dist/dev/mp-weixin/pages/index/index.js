@@ -177,13 +177,26 @@ var _index = __webpack_require__(/*! ../../static/JS/custom/index/index.js */ 17
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
-    return {};
+    return {
+      date: 2023
+    };
   },
-  onLoad: function onLoad() {},
+  onLoad: function onLoad() {
+    this.date = new Date().getFullYear();
+  },
   methods: {
-    scancode: _index.scancode
+    scancode: _index.scancode,
+    router: _index.router
   }
 };
 exports.default = _default;

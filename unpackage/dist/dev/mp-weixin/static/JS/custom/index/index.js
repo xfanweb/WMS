@@ -1,3 +1,4 @@
+// 扫码传参
 export function scancode() {
 	uni.scanCode({
 		onlyFromCamera: true,
@@ -8,4 +9,10 @@ export function scancode() {
 			})
 		}
 	});
+}
+//自定义跳转方法
+export function router(url) {
+	uni.navigateTo({
+		url: '/pages/' + url + '/' + url
+	})
 }

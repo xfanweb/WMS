@@ -254,4 +254,8 @@
   -webkit-appearance: none;
   background: transparent;
 }
+page {
+  height: 100%;
+  background: #f1f6fc;
+}
 

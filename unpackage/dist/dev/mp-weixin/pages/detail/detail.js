@@ -101,6 +101,9 @@ __webpack_require__.r(__webpack_exports__);
 var components
 try {
   components = {
+    uInput: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 215))
+    },
     uSwitch: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-switch/u-switch")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 184))
     },
@@ -206,14 +209,23 @@ var _App = __webpack_require__(/*! ../../App.vue */ 39);
 //
 //
 //
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       data: null,
       value: null,
       status: false,
-      id: '',
-      StatusContent: null
+      id: null,
+      StatusContent: null,
+      name: '',
+      phone: '',
+      input: null
     };
   },
   onLoad: function onLoad(options) {
@@ -222,34 +234,69 @@ var _default = {
     that.id = id;
     (0, _App.ExecSql)('wms', {
       id: id,
-      name: 'stock',
-      api: 'querystock'
+      // 二维码传回ID
+      tablename: 'stock',
+      //数据表名
+      api: 'querystock' //数据库操作api
     }, function (res) {
-      that.data = res.result.data;
-      that.StatusContent = res.result.data[0].status;
-      that.value = res.result.data[0].status;
+      that.data = res.result.data; //stock表里的数据
+      that.name = that.data[0].name; //姓名
+      that.phone = that.data[0].phone; //手机号
+      that.StatusContent = that.data[0].status; //借出状态
+      that.value = that.data[0].status; //u-switch 双向绑定 依据借出状态
+      that.input = that.data[0].status; //u-input 双向绑定 依据借出状态
     });
   },
+
   methods: {
     change: function change() {
       var that = this;
-      that.status = true;
-      var title = that.value == false ? "归还成功" : "借出成功";
-      uni.showToast({
-        title: title,
-        icon: 'success'
-      });
-      (0, _App.ExecSql)('wms', {
-        id: that.id,
-        name: 'stock',
-        api: 'updatestock',
-        status: that.value
-      }, function (res) {
+
+      // const status=that.value==true?"借出":"归还" //历史记录要用到暂时注释  
+      var objValue = function objValue(tablename, api, time) {
+        var object = {
+          tablename: tablename,
+          api: api,
+          id: that.id,
+          name: that.name,
+          phone: that.phone,
+          time: time,
+          status: that.value
+        };
+        return object;
+      };
+      function update() {
+        that.status = true;
         that.StatusContent = !that.StatusContent;
-        setTimeout(function () {
-          uni.navigateBack();
-        }, 1500);
-      });
+        (0, _App.ExecSql)('wms', objValue('record', 'addrecord', (0, _App.time)()), function (res) {
+          (0, _App.ExecSql)('wms', objValue('stock', 'updatestock', null), function (res) {
+            var title = that.value == false ? "归还成功" : "借出成功";
+            that.name = "";
+            that.phone = "";
+            uni.showToast({
+              title: title,
+              icon: 'success'
+            });
+            setTimeout(function () {
+              uni.navigateBack();
+            }, 1600);
+          });
+        });
+      }
+      console.log(objValue('record', 'addrecord', (0, _App.time)()));
+      if (!that.StatusContent) {
+        if (that.name !== "" && that.phone.length === 11) {
+          update();
+        } else {
+          uni.showToast({
+            title: '请检查',
+            icon: 'error'
+          });
+          that.value = !that.value;
+        }
+      } else {
+        update();
+      }
     }
   }
 };
@@ -358,15 +405,30 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ExecSql = ExecSql;
 exports.default = void 0;
+exports.time = time;
 function ExecSql(name, data, callback) {
   uniCloud.callFunction({
     name: name,
     data: data
   }).then(function (res) {
-    // that.detail = res.result.data
-    // that.value = res.result.data[0]['status']
     callback(res);
   });
+}
+function time() {
+  var date = new Date();
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var h = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+  month <= 9 ? month = "0" + month : false;
+  day <= 9 ? day = "0" + day : false;
+  h <= 9 ? h = "0" + h : false;
+  m <= 9 ? m = "0" + m : false;
+  s <= 9 ? s = "0" + s : false;
+  var time = year + "年" + month + "月" + day + "日" + h + ":" + m + ":" + s;
+  return time;
 }
 var _default = {
   onLaunch: function onLaunch() {

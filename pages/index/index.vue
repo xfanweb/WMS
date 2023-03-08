@@ -1,29 +1,38 @@
 <template>
 	<view class="container">
-		<view class="el-card flex end" @click="scancode">
-			<u-icon name="scan"  size="32"></u-icon>
-			<!-- <image class="scanimg" src="../../static/Images/scan.png"></image> -->
+		<view class="el-card flex end admin" @click="router('admin')">
+			<u-icon name="account" size="32"></u-icon>
+			<text class="scantext">后台</text>
+		</view>
+		<view class="el-card flex end scan" @click="scancode">
+			<u-icon name="scan" size="32"></u-icon>
 			<text class="scantext">扫码</text>
-			<!-- <u-button type="primary" text="确定"></u-button> -->
+		</view>
+		
+		<view class="copy center">&copy; {{date!==2023?"2023-"+date:"2023"}} 李彬工作室</view>
+		<view class="by center flex">
+			<u-icon name="github-circle-fill" size="18"></u-icon>
+			<view class="mgl8">YuYa & Xiaofan</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		scancode
+		scancode,router
 	} from '../../static/JS/custom/index/index.js';
 	export default {
 		data() {
 			return {
-
+				date: 2023
 			}
 		},
 		onLoad() {
-
+			this.date = new Date().getFullYear();
 		},
 		methods: {
-			scancode
+			scancode,
+			router
 		}
 	}
 </script>

@@ -123,15 +123,30 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.ExecSql = ExecSql;
 exports.default = void 0;
+exports.time = time;
 function ExecSql(name, data, callback) {
   uniCloud.callFunction({
     name: name,
     data: data
   }).then(function (res) {
-    // that.detail = res.result.data
-    // that.value = res.result.data[0]['status']
     callback(res);
   });
+}
+function time() {
+  var date = new Date();
+  var year = date.getFullYear();
+  var month = date.getMonth() + 1;
+  var day = date.getDate();
+  var h = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+  month <= 9 ? month = "0" + month : false;
+  day <= 9 ? day = "0" + day : false;
+  h <= 9 ? h = "0" + h : false;
+  m <= 9 ? m = "0" + m : false;
+  s <= 9 ? s = "0" + s : false;
+  var time = year + "年" + month + "月" + day + "日" + h + ":" + m + ":" + s;
+  return time;
 }
 var _default = {
   onLaunch: function onLaunch() {

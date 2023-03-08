@@ -1,6 +1,7 @@
 {
   "navigationBarTitleText": "库存详情",
   "usingComponents": {
+    "u-input": "/node-modules/uview-ui/components/u-input/u-input",
     "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch"
   }
 }

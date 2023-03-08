@@ -21,7 +21,16 @@
 				"navigationBarTitleText": "库存详情"
 			}
 		}
-	],
+	    ,{
+            "path" : "pages/admin/admin",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "后台管理",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "#FFFFFF",
 		"navigationBarTitleText": "uni-app",

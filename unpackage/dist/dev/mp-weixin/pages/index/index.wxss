@@ -4,10 +4,6 @@
 	box-sizing: border-box;
 	width: 100%;
 }
-.scanimg {
-	height: 64rpx;
-	width: 64rpx;
-}
 .scantext {
 	font-size: 36rpx;
 	margin-left: 24rpx;
@@ -19,9 +15,32 @@
 	position: fixed;
 	margin: 0 auto;
 	left: 0;
-	right: 0; 
-	bottom: 150rpx;
-	width: 64% !important;
+	right: 0;
+	width: 83% !important;
+}
+.admin {
+	bottom: 350rpx;
+}
+.scan {
+	bottom: 180rpx;
+}
+.copy {
+	position: fixed;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	font-size: 28rpx;
+	bottom: 70rpx;
+}
+.by {
+	position: fixed;
+	margin: 0 auto;
+	left: 0;
+	right: 0;
+	color: #909399;
+	font-size: 24rpx;
+	bottom: 30rpx;
+	justify-content: center;
 }
 
 /* 自定义样式 */
@@ -29,46 +48,52 @@
 	color: #fff;
 	background-color: #409eff;
 	border-color: #409eff;
-    display: inline-block;
-    line-height: 1;
-    white-space: nowrap;
-    cursor: pointer;
-    background: #fff;
-    border: 1px solid #dcdfe6;
-    -webkit-appearance: none;
-    text-align: center;
-    box-sizing: border-box;
-    outline: none;
-    margin: 0;
-    transition: .1s;
-    font-weight: 500;
-    -moz-user-select: none;
-    -webkit-user-select: none;
-    -ms-user-select: none;
-    padding: 12px 20px;
-    font-size: 14px;
-    border-radius: 4px;
+	display: inline-block;
+	line-height: 1;
+	white-space: nowrap;
+	cursor: pointer;
+	background: #fff;
+	border: 1px solid #dcdfe6;
+	-webkit-appearance: none;
+	text-align: center;
+	box-sizing: border-box;
+	outline: none;
+	margin: 0;
+	transition: .1s;
+	font-weight: 500;
+	-moz-user-select: none;
+	-webkit-user-select: none;
+	-ms-user-select: none;
+	padding: 12px 20px;
+	font-size: 14px;
+	border-radius: 4px;
 }
 .el-card {
 	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 	width: auto;
-    border-radius: 4px;
-    border: 1px solid #ebeef5;
+	border-radius: 4px;
+	border: 1px solid #ebeef5;
 	padding: 20px;
-    background-color: #fff;
-    overflow: hidden;
-    color: #303133;
-    transition: .3s;
+	background-color: #fff;
+	overflow: hidden;
+	color: #303133;
+	transition: .3s;
 }
-.flex{
+.flex {
 	display: flex;
 	align-items: center;
 }
-.mgt16{
-	margin-top: 16rpx;
+.mgt12 {
+	margin-top: 12rpx !important;
 }
-.mgr16{
-	margin-right: 16rpx;
+.mgr16 {
+	margin-right: 16rpx !important;
+}
+.mgl8 {
+	margin-left: 8rpx !important;
+}
+.p3 {
+	padding: 3rpx;
 }
 
 /* UI 样式 */
