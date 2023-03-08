@@ -1,7 +1,8 @@
 <template>
 	<view class="container">
-		<view class="el-card flex" @click="scancode">
-			<image class="scanimg" src="../../static/Images/scan.png"></image>
+		<view class="el-card flex end" @click="scancode">
+			<u-icon name="scan"  size="32"></u-icon>
+			<!-- <image class="scanimg" src="../../static/Images/scan.png"></image> -->
 			<text class="scantext">扫码</text>
 			<!-- <u-button type="primary" text="确定"></u-button> -->
 		</view>

@@ -1,24 +1,29 @@
 .container {
 	height: 100%;
-    padding: 16rpx 16rpx 16rpx;
-    box-sizing: border-box;
-    width: 100%;
+	padding: 16rpx 16rpx 16rpx;
+	box-sizing: border-box;
+	width: 100%;
 }
-.flex{
-	display: flex;
-	align-items: center;
-}
-.scanimg{
+.scanimg {
 	height: 64rpx;
 	width: 64rpx;
 }
-.scantext{
+.scantext {
 	font-size: 36rpx;
 	margin-left: 24rpx;
 }
-.center{
+.center {
 	text-align: center;
 }
+.end {
+	position: fixed;
+	margin: 0 auto;
+	left: 0;
+	right: 0; 
+	bottom: 150rpx;
+	width: 64% !important;
+}
+
 /* 自定义样式 */
 .el-button {
 	color: #fff;
@@ -65,5 +70,6 @@
 .mgr16{
 	margin-right: 16rpx;
 }
+
 /* UI 样式 */
 

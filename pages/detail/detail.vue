@@ -1,6 +1,6 @@
 <template>
 	<view class="container">
-		<view class="el-card" v-for="(item,index) in data" v-key="index">
+		<view class="el-card" v-for="(item,index) in data" :key="index">
 			<view class="flex mgt16">
 				<span>品牌：</span>
 				<view class="text">{{item.brand}}</view>
