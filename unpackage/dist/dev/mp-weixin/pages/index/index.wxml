@@ -1,1 +1,1 @@
-<view class="container"><view data-event-opts="{{[['tap',[['scancode',['$event']]]]]}}" class="el-card flex" bindtap="__e"><text class="scantext">扫码</text><u-button vue-id="8dd740cc-1" type="primary" text="确定" bind:__l="__l"></u-button></view></view>
+<view class="container"><view data-event-opts="{{[['tap',[['scancode',['$event']]]]]}}" class="el-card flex" bindtap="__e"><image class="scanimg" src="../../static/Images/scan.png"></image><text class="scantext">扫码</text></view></view>

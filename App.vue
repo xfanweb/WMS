@@ -1,13 +1,23 @@
 <script>
+	export function ExecSql (name,data,callback) {
+		uniCloud.callFunction({
+			name: name,
+			data: data
+		}).then(res => {
+			// that.detail = res.result.data
+			// that.value = res.result.data[0]['status']
+			callback(res);
+		})
+	}
 	export default {
 		onLaunch: function() {
-			console.log('App Launch')
+			// console.log('App Launch')
 		},
 		onShow: function() {
-			console.log('App Show')
+			// console.log('App Show')
 		},
 		onHide: function() {
-			console.log('App Hide')
+			// console.log('App Hide')
 		}
 	}
 </script>

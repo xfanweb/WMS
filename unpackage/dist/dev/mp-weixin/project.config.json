@@ -15,11 +15,12 @@
       "ignore": [],
       "disablePlugins": [],
       "outputPath": ""
-    }
+    },
+    "ignoreUploadUnusedFiles": true
   },
   "compileType": "miniprogram",
   "libVersion": "2.30.2",
-  "appid": "wx602732a41073001a",
+  "appid": "wxaca4263698f3522b",
   "projectname": "WMS",
   "condition": {},
   "editorSetting": {

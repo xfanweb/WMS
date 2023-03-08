@@ -1,26 +1,28 @@
 <template>
 	<view class="container">
 		<view class="el-card flex" @click="scancode">
-			<!-- <image class="scanimg" src="../../static/Images/scan.png"></image> -->
+			<image class="scanimg" src="../../static/Images/scan.png"></image>
 			<text class="scantext">扫码</text>
-		<u-button type="primary" text="确定"></u-button>
+			<!-- <u-button type="primary" text="确定"></u-button> -->
 		</view>
 	</view>
 </template>
 
 <script>
-	import {scancode} from '../../static/JS/custom/index/index.js';
+	import {
+		scancode
+	} from '../../static/JS/custom/index/index.js';
 	export default {
 		data() {
 			return {
-				
+
 			}
 		},
 		onLoad() {
 
 		},
 		methods: {
-scancode
+			scancode
 		}
 	}
 </script>

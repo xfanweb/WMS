@@ -1,0 +1,6 @@
+{
+  "navigationBarTitleText": "相机详情",
+  "usingComponents": {
+    "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch"
+  }
+}
