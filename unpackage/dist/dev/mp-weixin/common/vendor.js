@@ -9891,9 +9891,9 @@ var y = "development" === "development",
         "127.0.0.1",
         "192.168.80.91"
     ],
-    "debugPort": 9000,
+    "debugPort": 9001,
     "initialLaunchType": "remote",
-    "servePort": 7000,
+    "servePort": 7001,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.7.3.20230223/plugins/unicloud/**/*.js"
@@ -16902,12 +16902,12 @@ var _default = {
   "pages": [{
     "path": "pages/index/index",
     "style": {
-      "navigationBarTitleText": "相机出库管理"
+      "navigationBarTitleText": "胡职摄影设备管理"
     }
   }, {
     "path": "pages/detail/detail",
     "style": {
-      "navigationBarTitleText": "相机详情"
+      "navigationBarTitleText": "库存详情"
     }
   }],
   "globalStyle": {
@@ -26296,42 +26296,14 @@ function scancode() {
 /* 179 */,
 /* 180 */,
 /* 181 */,
-/* 182 */
-/*!********************************************************!*\
-  !*** E:/project/WMS/static/JS/custom/detail/detail.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.change = change;
-var _App = __webpack_require__(/*! ../../../../App.vue */ 39);
-function change() {
-  var that = this;
-  that.status = true;
-  var id = that.id;
-  var title = that.value == false ? "归还成功" : "借出成功";
-  uni.showToast({
-    title: title,
-    icon: 'success'
-  });
-}
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
+/* 182 */,
 /* 183 */,
 /* 184 */,
 /* 185 */,
 /* 186 */,
 /* 187 */,
 /* 188 */,
-/* 189 */,
-/* 190 */
+/* 189 */
 /*!*************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-switch/props.js ***!
   \*************************************************************************/
@@ -26403,14 +26375,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 190 */,
 /* 191 */,
 /* 192 */,
 /* 193 */,
 /* 194 */,
 /* 195 */,
 /* 196 */,
-/* 197 */,
-/* 198 */
+/* 197 */
 /*!*******************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-loading-icon/props.js ***!
   \*******************************************************************************/

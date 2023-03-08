@@ -12,13 +12,13 @@
 		{
 			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "相机出库管理"
+				"navigationBarTitleText": "胡职摄影设备管理"
 			}
 		},
 		{
 			"path": "pages/detail/detail",
 			"style": {
-				"navigationBarTitleText": "相机详情"
+				"navigationBarTitleText": "库存详情"
 			}
 		}
 	],

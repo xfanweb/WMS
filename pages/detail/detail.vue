@@ -28,7 +28,7 @@
 			<view class="flex mgt16">
 				<span>状态：</span>
 				<view class="flex">
-					<view class="mgr16">{{item.status==false?"未借出":"已借出"}}</view>
+					<view class="mgr16">{{StatusContent==false?"未借出":"已借出"}}</view>
 					<u-switch v-model="value" activeColor="#5ac725" inactiveColor="#f56c6c" @change="change"
 						:disabled="status"></u-switch>
 				</view>
@@ -39,24 +39,22 @@
 </template>
 
 <script>
-	import {
-		change
-	} from '../../static/JS/custom/detail/detail.js';
 	import {ExecSql} from '../../App.vue';
 	export default {
 		data() {
 			return {
-				data: '',
+				data: null,
 				value: null,
 				status: false,
-				id:''
+				id:'',
+				StatusContent: null
 			}
 		},
 
 		onLoad(options) {
 			const id = Number(options.id)
 			const that = this
-			that.id = id
+			that.id =id
 			ExecSql('wms', {
 				id: id,
 				name: 'stock',
@@ -64,11 +62,32 @@
 			}, (res) => {
 				
 				that.data = res.result.data
-				that.value = res.result.data
+				that.StatusContent = res.result.data[0].status
+				that.value = res.result.data[0].status
 			})
 		},
 		methods: {
-			change
+			change(){
+				var that = this
+				that.status = true
+				const title = that.value == false ? "归还成功" : "借出成功"
+				uni.showToast({
+					title: title,
+					icon: 'success'
+				})
+				ExecSql('wms', {
+					id: that.id,
+					name: 'stock',
+					api: 'updatestock',
+					status: that.value
+				}, (res) => {
+					that.StatusContent=!that.StatusContent
+					setTimeout(function(){
+						uni.navigateBack()
+					},1500)
+					
+				})
+			}
 		}
 	}
 </script>
