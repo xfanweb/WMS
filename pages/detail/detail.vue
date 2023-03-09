@@ -45,22 +45,22 @@
 
 
 			<u-scroll-list>
-				<uni-table >
-					<!-- 表头行 -->
-					<uni-tr>
-						<uni-th align="center">姓名</uni-th>
-						<uni-th align="left">手机号</uni-th>
-						<uni-th align="left">时间</uni-th>
-						<uni-th align="center">状态</uni-th>
-					</uni-tr>
-					<!-- 表格数据行 -->
-					<uni-tr v-for="(item, index) in record" :key="index">
-						<uni-td>{{item.name}}</uni-td>
-						<uni-td>{{item.phone}}</uni-td>
-						<uni-td>{{item.time}}</uni-td>
-						<uni-td>{{item.status}}</uni-td>
-					</uni-tr>
-				</uni-table>
+<uni-table>
+     <!-- 表头行 -->
+     <uni-tr>
+      <uni-th align="center">姓名</uni-th>
+      <uni-th align="left">手机号</uni-th>
+      <uni-th align="left">时间</uni-th>
+      <uni-th align="center">状态</uni-th>
+     </uni-tr>
+     <!-- 表格数据行 -->
+     <uni-tr v-for="(item, index) in record" :key="index">
+      <uni-td>{{item.name}}</uni-td>
+      <uni-td>{{item.phone}}</uni-td>
+      <uni-td>{{item.time}}</uni-td>
+      <uni-td>{{item.status}}</uni-td>
+     </uni-tr>
+    </uni-table>
 			</u-scroll-list>
 
 

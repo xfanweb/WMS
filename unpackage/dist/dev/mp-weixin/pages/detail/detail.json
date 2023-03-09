@@ -4,9 +4,9 @@
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",
     "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch",
     "u-scroll-list": "/node-modules/uview-ui/components/u-scroll-list/u-scroll-list",
-    "uni-table": "/node-modules/@dcloudio/uniui/lib/uni-table/uni-table",
-    "uni-tr": "/node-modules/@dcloudio/uniui/lib/uni-tr/uni-tr",
-    "uni-th": "/node-modules/@dcloudio/uniui/lib/uni-th/uni-th",
-    "uni-td": "/node-modules/@dcloudio/uniui/lib/uni-td/uni-td"
+    "uni-table": "/node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table",
+    "uni-tr": "/node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr",
+    "uni-th": "/node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th",
+    "uni-td": "/node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td"
   }
 }
