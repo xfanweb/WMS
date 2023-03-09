@@ -1,37 +1,37 @@
 <template>
 	<view class="container">
-		<view class="el-card" v-for="(item,index) in data" :key="index">
-			<view class="flex mgt12 p3">
+		<view class="el-card" v-for="(item,index) in stock" :key="index">
+			<view class="flex mgt12 pd3">
 				<span>品牌：</span>
 				<view class="text">{{item.brand}}</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>类型：</span>
 				<view class="text">{{item.type}}</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>型号：</span>
 				<view class="text">{{item.model}}</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>编号：</span>
 				<view class="text">{{item.serialNo}}</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>姓名：</span>
 				<view class="text">
 					<u-input v-model="name" type="text" border="bottom" clearable placeholder="请输入姓名" maxlength="4"
 						:disabled="input" />
 				</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>手机号：</span>
 				<view class="text">
 					<u-input v-model="phone" type="number" border="bottom" clearable placeholder="请输入手机号"
 						:disabled="input" maxlength="11" />
 				</view>
 			</view>
-			<view class="flex mgt12 p3">
+			<view class="flex mgt12 pd3">
 				<span>状态：</span>
 				<view class="flex">
 					<view class="mgr16">{{StatusContent==false?"未借出":"已借出"}}</view>
@@ -39,6 +39,30 @@
 						:disabled="status"></u-switch>
 				</view>
 			</view>
+		</view>
+		<view class="el-card mgt32 record-box" style="width: auto;">
+			<!-- v-for="(item,index) in record" :key="index" -->
+
+
+			<u-scroll-list>
+				<uni-table >
+					<!-- 表头行 -->
+					<uni-tr>
+						<uni-th align="center">姓名</uni-th>
+						<uni-th align="left">手机号</uni-th>
+						<uni-th align="left">时间</uni-th>
+						<uni-th align="center">状态</uni-th>
+					</uni-tr>
+					<!-- 表格数据行 -->
+					<uni-tr v-for="(item, index) in record" :key="index">
+						<uni-td>{{item.name}}</uni-td>
+						<uni-td>{{item.phone}}</uni-td>
+						<uni-td>{{item.time}}</uni-td>
+						<uni-td>{{item.status}}</uni-td>
+					</uni-tr>
+				</uni-table>
+			</u-scroll-list>
+
 
 		</view>
 	</view>
@@ -52,7 +76,8 @@
 	export default {
 		data() {
 			return {
-				data: null,
+				stock: null,
+				record: null,
 				value: null,
 				status: false,
 				id: null,
@@ -73,21 +98,29 @@
 				tablename: 'stock', //数据表名
 				api: 'querystock' //数据库操作api
 			}, (res) => {
-				that.data = res.result.data //stock表里的数据
-				that.name = that.data[0].name //姓名
-				that.phone = that.data[0].phone //手机号
-				that.StatusContent = that.data[0].status //借出状态
-				that.value = that.data[0].status //u-switch 双向绑定 依据借出状态
-				that.input = that.data[0].status //u-input 双向绑定 依据借出状态
+				that.stock = res.result.data //stock表里的数据
+				that.name = that.stock[0].name //姓名
+				that.phone = that.stock[0].phone //手机号
+				that.StatusContent = that.stock[0].status //借出状态
+				that.value = that.stock[0].status //u-switch 双向绑定 依据借出状态
+				that.input = that.stock[0].status //u-input 双向绑定 依据借出状态
+			})
+			ExecSql('wms', {
+				id: id, // 二维码传回ID
+				tablename: 'record', //数据表名
+				api: 'queryrecord' //数据库操作api
+			}, (res) => {
+				console.log(res)
+				that.record = res.result.data
 			})
 		},
 		methods: {
 			change() {
 				var that = this
-				
+
 				// const status=that.value==true?"借出":"归还" //历史记录要用到暂时注释  
 				let objValue = (tablename, api, time) => {
-					const object={
+					const object = {
 						tablename: tablename,
 						api: api,
 						id: that.id,
@@ -98,26 +131,26 @@
 					}
 					return object
 				}
-				function update(){
+
+				function update() {
 					that.status = true
 					that.StatusContent = !that.StatusContent
-					ExecSql('wms', objValue('record','addrecord',time()), (res) => {
-						ExecSql('wms', objValue('stock','updatestock',null), (res) => {
+					ExecSql('wms', objValue('record', 'addrecord', time()), (res) => {
+						ExecSql('wms', objValue('stock', 'updatestock', null), (res) => {
 							const title = that.value == false ? "归还成功" : "借出成功"
-							that.name=""
-							that.phone=""
+							that.name = ""
+							that.phone = ""
 							uni.showToast({
 								title: title,
 								icon: 'success'
 							})
-							
 							setTimeout(function() {
 								uni.navigateBack()
 							}, 1600)
 						})
 					})
 				}
-				console.log(objValue('record','addrecord',time()))
+				// console.log(objValue('record','addrecord',time()))
 				if (!that.StatusContent) {
 					if (that.name !== "" && that.phone.length === 11) {
 						update()

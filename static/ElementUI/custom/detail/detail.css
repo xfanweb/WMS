@@ -5,3 +5,7 @@ span{
 .u-input{
 	padding: 0 1rpx !important;
 }
+.scrollx{
+	white-space: nowrap !important;
+	overflow-x: scroll;
+}

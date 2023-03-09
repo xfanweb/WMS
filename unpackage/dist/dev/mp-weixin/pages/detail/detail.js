@@ -102,10 +102,25 @@ var components
 try {
   components = {
     uInput: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 215))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 199))
     },
     uSwitch: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-switch/u-switch")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 184))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-switch/u-switch")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 207))
+    },
+    uScrollList: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-scroll-list/u-scroll-list */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-scroll-list/u-scroll-list")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-scroll-list/u-scroll-list.vue */ 215))
+    },
+    uniTable: function () {
+      return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '@dcloudio/uniui/lib/uni-table/uni-table.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
+    },
+    uniTr: function () {
+      return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '@dcloudio/uniui/lib/uni-tr/uni-tr.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
+    },
+    uniTh: function () {
+      return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '@dcloudio/uniui/lib/uni-th/uni-th.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
+    },
+    uniTd: function () {
+      return Promise.resolve().then(function webpackMissingModule() { var e = new Error("Cannot find module '@dcloudio/uniui/lib/uni-td/uni-td.vue'"); e.code = 'MODULE_NOT_FOUND'; throw e; })
     },
   }
 } catch (e) {
@@ -215,10 +230,35 @@ var _App = __webpack_require__(/*! ../../App.vue */ 39);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
-      data: null,
+      stock: null,
+      record: null,
       value: null,
       status: false,
       id: null,
@@ -239,15 +279,25 @@ var _default = {
       //数据表名
       api: 'querystock' //数据库操作api
     }, function (res) {
-      that.data = res.result.data; //stock表里的数据
-      that.name = that.data[0].name; //姓名
-      that.phone = that.data[0].phone; //手机号
-      that.StatusContent = that.data[0].status; //借出状态
-      that.value = that.data[0].status; //u-switch 双向绑定 依据借出状态
-      that.input = that.data[0].status; //u-input 双向绑定 依据借出状态
+      that.stock = res.result.data; //stock表里的数据
+      that.name = that.stock[0].name; //姓名
+      that.phone = that.stock[0].phone; //手机号
+      that.StatusContent = that.stock[0].status; //借出状态
+      that.value = that.stock[0].status; //u-switch 双向绑定 依据借出状态
+      that.input = that.stock[0].status; //u-input 双向绑定 依据借出状态
+    });
+
+    (0, _App.ExecSql)('wms', {
+      id: id,
+      // 二维码传回ID
+      tablename: 'record',
+      //数据表名
+      api: 'queryrecord' //数据库操作api
+    }, function (res) {
+      console.log(res);
+      that.record = res.result.data;
     });
   },
-
   methods: {
     change: function change() {
       var that = this;
@@ -283,7 +333,7 @@ var _default = {
           });
         });
       }
-      console.log(objValue('record', 'addrecord', (0, _App.time)()));
+      // console.log(objValue('record','addrecord',time()))
       if (!that.StatusContent) {
         if (that.name !== "" && that.phone.length === 11) {
           update();

@@ -52,6 +52,15 @@
 	margin-left: 8rpx !important;
 }
 
-.p3 {
+.pd3 {
 	padding: 3rpx;
+}
+.mgt32 {
+	margin-top: 32rpx !important;
+}
+.width96{
+	width: 96rpx;
+}
+.width240{
+	width: 240rpx;
 }
