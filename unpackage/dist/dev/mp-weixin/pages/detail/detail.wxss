@@ -259,42 +259,25 @@ page {
   background: #f1f6fc;
 }
 
-._span{
+._span {
 	color: #8f9ca2;
 	width: 20%;
 }
-.u-input{
+.u-input {
 	padding: 0 1rpx !important;
 }
-.scrollx{
+.scrollx {
 	white-space: nowrap !important;
 	overflow-x: scroll;
 }
-/* 自定义样式 */
-.el-button {
-	color: #fff;
-	background-color: #409eff;
-	border-color: #409eff;
-	display: inline-block;
-	line-height: 1;
-	white-space: nowrap;
-	cursor: pointer;
-	background: #fff;
-	border: 1px solid #dcdfe6;
-	-webkit-appearance: none;
-	text-align: center;
-	box-sizing: border-box;
-	outline: none;
-	margin: 0;
-	transition: .1s;
-	font-weight: 500;
-	-moz-user-select: none;
-	-webkit-user-select: none;
-	-ms-user-select: none;
-	padding: 12px 20px;
-	font-size: 14px;
-	border-radius: 4px;
+.u-search {
+	width: 100% !important;
 }
+.search {
+	justify-content: flex-end;
+}
+
+/* 自定义样式 */
 .el-card {
 	box-shadow: 0 2px 12px 0 rgb(0 0 0 / 10%);
 	width: auto;
@@ -325,11 +308,12 @@ page {
 .mgt32 {
 	margin-top: 32rpx !important;
 }
-.width96{
-	width: 96rpx;
+.mgb32 {
+	margin-bottom: 32rpx !important;
 }
-.width240{
-	width: 240rpx;
+.width50{
+	width: 50% !important;
 }
+
 /* UI 样式 */
 

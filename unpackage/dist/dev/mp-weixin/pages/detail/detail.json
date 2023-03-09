@@ -3,10 +3,12 @@
   "usingComponents": {
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",
     "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch",
+    "u-search": "/node-modules/uview-ui/components/u-search/u-search",
     "u-scroll-list": "/node-modules/uview-ui/components/u-scroll-list/u-scroll-list",
     "uni-table": "/node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table",
     "uni-tr": "/node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr",
     "uni-th": "/node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th",
-    "uni-td": "/node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td"
+    "uni-td": "/node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td",
+    "u--text": "/node-modules/uview-ui/components/u--text/u--text"
   }
 }

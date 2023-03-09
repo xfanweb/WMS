@@ -1,5 +1,5 @@
 {
-  "name": "CheckSQL",
+  "name": "wms",
   "dependencies": {},
   "extensions": {
     "uni-cloud-jql": {}

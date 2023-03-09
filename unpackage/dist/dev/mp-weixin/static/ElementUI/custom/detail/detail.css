@@ -1,11 +1,21 @@
-span{
+span {
 	color: #8f9ca2;
 	width: 20%;
 }
-.u-input{
+
+.u-input {
 	padding: 0 1rpx !important;
 }
-.scrollx{
+
+.scrollx {
 	white-space: nowrap !important;
 	overflow-x: scroll;
+}
+
+.u-search {
+	width: 100% !important;
+}
+
+.search {
+	justify-content: flex-end;
 }

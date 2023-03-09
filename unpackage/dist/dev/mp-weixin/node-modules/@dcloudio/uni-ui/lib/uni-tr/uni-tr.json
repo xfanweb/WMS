@@ -1,6 +1,6 @@
 {
+  "component": true,
   "usingComponents": {
     "table-checkbox": "/node-modules/@dcloudio/uni-ui/lib/uni-tr/table-checkbox"
-  },
-  "component": true
+  }
 }

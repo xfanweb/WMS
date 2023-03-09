@@ -40,131 +40,63 @@
 				</view>
 			</view>
 		</view>
-		<view class="el-card mgt32 record-box" style="width: auto;">
-			<!-- v-for="(item,index) in record" :key="index" -->
-
-
-			<u-scroll-list>
-<uni-table>
-     <!-- 表头行 -->
-     <uni-tr>
-      <uni-th align="center">姓名</uni-th>
-      <uni-th align="left">手机号</uni-th>
-      <uni-th align="left">时间</uni-th>
-      <uni-th align="center">状态</uni-th>
-     </uni-tr>
-     <!-- 表格数据行 -->
-     <uni-tr v-for="(item, index) in record" :key="index">
-      <uni-td>{{item.name}}</uni-td>
-      <uni-td>{{item.phone}}</uni-td>
-      <uni-td>{{item.time}}</uni-td>
-      <uni-td>{{item.status}}</uni-td>
-     </uni-tr>
-    </uni-table>
+		<view class="el-card mgt32">
+			<view class="flex search mgb32">
+				<view class="width50">
+					<u-search placeholder="请输入搜索内容" v-model="serachv" shape="square" :showAction="false" maxlength="11"
+						@change="search(serachv,recordarr)"></u-search>
+				</view>
+			</view>
+			<u-scroll-list :indicator="false">
+				<uni-table>
+					<!-- 表头行 -->
+					<uni-tr>
+						<uni-th>姓名</uni-th>
+						<uni-th>手机号</uni-th>
+						<uni-th>时间</uni-th>
+						<uni-th>状态</uni-th>
+					</uni-tr>
+					<!-- 表格数据行 -->
+					<uni-tr v-for="(item, index) in record" :key="index">
+						<uni-td>{{item.name}}</uni-td>
+						<uni-td @tap="setclipboard(item.phone)">{{item.phone}}</uni-td>
+						<uni-td>{{item.time}}</uni-td>
+						<uni-td>
+							<u--text :type='item.status?"success":"error"' :text='item.status?"借出":"归还"'></u--text>
+						</uni-td>
+					</uni-tr>
+				</uni-table>
 			</u-scroll-list>
-
-
 		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		ExecSql,
-		time
-	} from '../../App.vue';
+		onLoad,
+		change,
+		search
+	} from '../../static/JS/custom/detail/detail.js'
 	export default {
 		data() {
 			return {
-				stock: null,
+				stock: [],
 				record: null,
 				value: null,
 				status: false,
 				id: null,
 				StatusContent: null,
-				name: '',
-				phone: '',
-				input: null
+				name: null,
+				phone: null,
+				input: null,
+				serachv: null,
+				recordarr:[]
 			}
 		},
-
-		onLoad(options) {
-
-			const id = Number(options.id)
-			const that = this
-			that.id = id
-			ExecSql('wms', {
-				id: id, // 二维码传回ID
-				tablename: 'stock', //数据表名
-				api: 'querystock' //数据库操作api
-			}, (res) => {
-				that.stock = res.result.data //stock表里的数据
-				that.name = that.stock[0].name //姓名
-				that.phone = that.stock[0].phone //手机号
-				that.StatusContent = that.stock[0].status //借出状态
-				that.value = that.stock[0].status //u-switch 双向绑定 依据借出状态
-				that.input = that.stock[0].status //u-input 双向绑定 依据借出状态
-			})
-			ExecSql('wms', {
-				id: id, // 二维码传回ID
-				tablename: 'record', //数据表名
-				api: 'queryrecord' //数据库操作api
-			}, (res) => {
-				console.log(res)
-				that.record = res.result.data
-			})
-		},
+		onLoad,
 		methods: {
-			change() {
-				var that = this
-
-				// const status=that.value==true?"借出":"归还" //历史记录要用到暂时注释  
-				let objValue = (tablename, api, time) => {
-					const object = {
-						tablename: tablename,
-						api: api,
-						id: that.id,
-						name: that.name,
-						phone: that.phone,
-						time: time,
-						status: that.value
-					}
-					return object
-				}
-
-				function update() {
-					that.status = true
-					that.StatusContent = !that.StatusContent
-					ExecSql('wms', objValue('record', 'addrecord', time()), (res) => {
-						ExecSql('wms', objValue('stock', 'updatestock', null), (res) => {
-							const title = that.value == false ? "归还成功" : "借出成功"
-							that.name = ""
-							that.phone = ""
-							uni.showToast({
-								title: title,
-								icon: 'success'
-							})
-							setTimeout(function() {
-								uni.navigateBack()
-							}, 1600)
-						})
-					})
-				}
-				// console.log(objValue('record','addrecord',time()))
-				if (!that.StatusContent) {
-					if (that.name !== "" && that.phone.length === 11) {
-						update()
-					} else {
-						uni.showToast({
-							title: '请检查',
-							icon: 'error'
-						})
-						that.value = !that.value
-					}
-				} else {
-					update()
-				}
-			}
+			change,
+			search,
 		}
 	}
 </script>
