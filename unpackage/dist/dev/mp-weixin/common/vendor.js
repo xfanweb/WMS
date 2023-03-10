@@ -15,17 +15,12 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.default = void 0;
 var objectKeys = ['qy', 'env', 'error', 'version', 'lanDebug', 'cloud', 'serviceMarket', 'router', 'worklet'];
-var singlePageDisableKey = ['lanDebug', 'router', 'worklet'];
 var target = typeof globalThis !== 'undefined' ? globalThis : function () {
   return this;
 }();
 var key = ['w', 'x'].join('');
 var oldWx = target[key];
-var launchOption = oldWx.getLaunchOptionsSync ? oldWx.getLaunchOptionsSync() : null;
 function isWxKey(key) {
-  if (launchOption && launchOption.scene === 1154 && singlePageDisableKey.includes(key)) {
-    return false;
-  }
   return objectKeys.indexOf(key) > -1 || typeof oldWx[key] === 'function';
 }
 function initWx() {
@@ -359,7 +354,7 @@ var promiseInterceptor = {
     });
   }
 };
-var SYNC_API_RE = /^\$|Window$|WindowStyle$|sendHostEvent|sendNativeEvent|restoreGlobal|requireGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64|getLocale|setLocale|invokePushCallback|getWindowInfo|getDeviceInfo|getAppBaseInfo|getSystemSetting|getAppAuthorizeSetting|initUTS|requireUTS|registerUTS/;
+var SYNC_API_RE = /^\$|Window$|WindowStyle$|sendHostEvent|sendNativeEvent|restoreGlobal|requireGlobal|getCurrentSubNVue|getMenuButtonBoundingClientRect|^report|interceptors|Interceptor$|getSubNVueById|requireNativePlugin|upx2px|hideKeyboard|canIUse|^create|Sync$|Manager$|base64ToArrayBuffer|arrayBufferToBase64|getLocale|setLocale|invokePushCallback|getWindowInfo|getDeviceInfo|getAppBaseInfo|getSystemSetting|getAppAuthorizeSetting/;
 var CONTEXT_API_RE = /^create|Manager$/;
 
 // Context例外情况
@@ -739,8 +734,6 @@ function populateParameters(result) {
     deviceOrientation = result.deviceOrientation;
   // const isQuickApp = "mp-weixin".indexOf('quickapp-webview') !== -1
 
-  var extraParam = {};
-
   // osName osVersion
   var osName = '';
   var osVersion = '';
@@ -779,8 +772,8 @@ function populateParameters(result) {
     appVersion: "1.0.0",
     appVersionCode: "100",
     appLanguage: getAppLanguage(hostLanguage),
-    uniCompileVersion: "3.7.3",
-    uniRuntimeVersion: "3.7.3",
+    uniCompileVersion: "3.6.18",
+    uniRuntimeVersion: "3.6.18",
     uniPlatform: undefined || "mp-weixin",
     deviceBrand: deviceBrand,
     deviceModel: model,
@@ -805,7 +798,7 @@ function populateParameters(result) {
     browserName: undefined,
     browserVersion: undefined
   };
-  Object.assign(result, parameters, extraParam);
+  Object.assign(result, parameters);
 }
 function getGetDeviceType(result, model) {
   var deviceType = result.deviceType || 'phone';
@@ -924,17 +917,6 @@ var getAppAuthorizeSetting = {
 
 // import navigateTo from 'uni-helpers/navigate-to'
 
-var compressImage = {
-  args: function args(fromArgs) {
-    // https://developers.weixin.qq.com/community/develop/doc/000c08940c865011298e0a43256800?highLine=compressHeight
-    if (fromArgs.compressedHeight && !fromArgs.compressHeight) {
-      fromArgs.compressHeight = fromArgs.compressedHeight;
-    }
-    if (fromArgs.compressedWidth && !fromArgs.compressWidth) {
-      fromArgs.compressWidth = fromArgs.compressedWidth;
-    }
-  }
-};
 var protocols = {
   redirectTo: redirectTo,
   // navigateTo,  // 由于在微信开发者工具的页面参数，会显示__id__参数，因此暂时关闭mp-weixin对于navigateTo的AOP
@@ -945,8 +927,7 @@ var protocols = {
   getAppBaseInfo: getAppBaseInfo,
   getDeviceInfo: getDeviceInfo,
   getWindowInfo: getWindowInfo,
-  getAppAuthorizeSetting: getAppAuthorizeSetting,
-  compressImage: compressImage
+  getAppAuthorizeSetting: getAppAuthorizeSetting
 };
 var todos = ['vibrate', 'preloadPage', 'unPreloadPage', 'loadSubPackage'];
 var canIUses = [];
@@ -9439,9 +9420,9 @@ internalMixin(Vue);
 
 /***/ }),
 /* 26 */
-/*!*********************************!*\
-  !*** E:/project/WMS/pages.json ***!
-  \*********************************/
+/*!*************************!*\
+  !*** F:/WMS/pages.json ***!
+  \*************************/
 /*! no static exports found */
 /***/ (function(module, exports) {
 
@@ -9884,19 +9865,22 @@ function m(e) {
 var y = "development" === "development",
   _ = "mp-weixin",
   w = "true" === undefined || !0 === undefined,
-  v = m([]),
-  S = "h5" === _ ? "web" : "app-plus" === _ ? "app" : _,
-  k = m({
+  v = m([]);
+var S;
+S = "h5" === _ ? "web" : "app-plus" === _ ? "app" : _;
+var k = m({
     "address": [
         "127.0.0.1",
-        "192.168.80.91"
+        "192.168.159.1",
+        "192.168.254.1",
+        "192.168.0.107"
     ],
-    "debugPort": 9000,
+    "debugPort": 9001,
     "initialLaunchType": "remote",
-    "servePort": 7000,
+    "servePort": 7001,
     "skipFiles": [
         "<node_internals>/**",
-        "D:/HBuilderX.3.7.3.20230223/plugins/unicloud/**/*.js"
+        "D:/HBuilderX/plugins/unicloud/**/*.js"
     ]
 }
 ),
@@ -9954,8 +9938,8 @@ var N = C("_globalUniCloudListener"),
   F = "needLogin",
   q = "refreshToken",
   K = "clientdb",
-  j = "cloudfunction",
-  M = "cloudobject";
+  M = "cloudfunction",
+  j = "cloudobject";
 function B(e) {
   return N[e] || (N[e] = []), N[e];
 }
@@ -10021,7 +10005,7 @@ function Y(e, t) {
           return U(R(t, "complete"), e);
         }).then(function () {
           return r && z(D, {
-            type: j,
+            type: M,
             content: e
           }), Promise.resolve(e);
         });
@@ -10030,7 +10014,7 @@ function Y(e, t) {
           return U(R(t, "complete"), e);
         }).then(function () {
           return z(D, {
-            type: j,
+            type: M,
             content: e
           }), Promise.reject(e);
         });
@@ -10038,12 +10022,12 @@ function Y(e, t) {
     if (!(o || a || c)) return l;
     l.then(function (e) {
       o && o(e), c && c(e), r && z(D, {
-        type: j,
+        type: M,
         content: e
       });
     }, function (e) {
       a && a(e), c && c(e), r && z(D, {
-        type: j,
+        type: M,
         content: e
       });
     });
@@ -10889,8 +10873,8 @@ var Ke;
 !function (e) {
   e.ANONYMOUS = "ANONYMOUS", e.WECHAT = "WECHAT", e.WECHAT_PUBLIC = "WECHAT-PUBLIC", e.WECHAT_OPEN = "WECHAT-OPEN", e.CUSTOM = "CUSTOM", e.EMAIL = "EMAIL", e.USERNAME = "USERNAME", e.NULL = "NULL";
 }(Ke || (Ke = {}));
-var je = ["auth.getJwt", "auth.logout", "auth.signInWithTicket", "auth.signInAnonymously", "auth.signIn", "auth.fetchAccessTokenWithRefreshToken", "auth.signUpWithEmailAndPassword", "auth.activateEndUserMail", "auth.sendPasswordResetEmail", "auth.resetPasswordWithToken", "auth.isUsernameRegistered"],
-  Me = {
+var Me = ["auth.getJwt", "auth.logout", "auth.signInWithTicket", "auth.signInAnonymously", "auth.signIn", "auth.fetchAccessTokenWithRefreshToken", "auth.signUpWithEmailAndPassword", "auth.activateEndUserMail", "auth.sendPasswordResetEmail", "auth.resetPasswordWithToken", "auth.isUsernameRegistered"],
+  je = {
     "X-SDK-Version": "1.3.5"
   };
 function Be(e, t, n) {
@@ -10919,7 +10903,7 @@ function $e() {
     data: {
       seqId: e
     },
-    headers: _objectSpread(_objectSpread({}, Me), {}, {
+    headers: _objectSpread(_objectSpread({}, je), {}, {
       "x-seqid": e
     })
   };
@@ -11196,7 +11180,7 @@ var We = /*#__PURE__*/function () {
                   env: this.config.env,
                   dataVersion: "2019-08-16"
                 }, t);
-                if (!(-1 === je.indexOf(e))) {
+                if (!(-1 === Me.indexOf(e))) {
                   _context9.next = 10;
                   break;
                 }
@@ -11295,7 +11279,7 @@ var We = /*#__PURE__*/function () {
                 });
               case 3:
                 n = _context10.sent;
-                if (!("ACCESS_TOKEN_EXPIRED" === n.data.code && -1 === je.indexOf(e))) {
+                if (!("ACCESS_TOKEN_EXPIRED" === n.data.code && -1 === Me.indexOf(e))) {
                   _context10.next = 13;
                   break;
                 }
@@ -13500,8 +13484,8 @@ var Dt,
     24: 12,
     32: 14
   },
-  jt = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145],
-  Mt = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22],
+  Mt = [1, 2, 4, 8, 16, 32, 64, 128, 27, 54, 108, 216, 171, 77, 154, 47, 94, 188, 99, 198, 151, 53, 106, 212, 179, 125, 250, 239, 197, 145],
+  jt = [99, 124, 119, 123, 242, 107, 111, 197, 48, 1, 103, 43, 254, 215, 171, 118, 202, 130, 201, 125, 250, 89, 71, 240, 173, 212, 162, 175, 156, 164, 114, 192, 183, 253, 147, 38, 54, 63, 247, 204, 52, 165, 229, 241, 113, 216, 49, 21, 4, 199, 35, 195, 24, 150, 5, 154, 7, 18, 128, 226, 235, 39, 178, 117, 9, 131, 44, 26, 27, 110, 90, 160, 82, 59, 214, 179, 41, 227, 47, 132, 83, 209, 0, 237, 32, 252, 177, 91, 106, 203, 190, 57, 74, 76, 88, 207, 208, 239, 170, 251, 67, 77, 51, 133, 69, 249, 2, 127, 80, 60, 159, 168, 81, 163, 64, 143, 146, 157, 56, 245, 188, 182, 218, 33, 16, 255, 243, 210, 205, 12, 19, 236, 95, 151, 68, 23, 196, 167, 126, 61, 100, 93, 25, 115, 96, 129, 79, 220, 34, 42, 144, 136, 70, 238, 184, 20, 222, 94, 11, 219, 224, 50, 58, 10, 73, 6, 36, 92, 194, 211, 172, 98, 145, 149, 228, 121, 231, 200, 55, 109, 141, 213, 78, 169, 108, 86, 244, 234, 101, 122, 174, 8, 186, 120, 37, 46, 28, 166, 180, 198, 232, 221, 116, 31, 75, 189, 139, 138, 112, 62, 181, 102, 72, 3, 246, 14, 97, 53, 87, 185, 134, 193, 29, 158, 225, 248, 152, 17, 105, 217, 142, 148, 155, 30, 135, 233, 206, 85, 40, 223, 140, 161, 137, 13, 191, 230, 66, 104, 65, 153, 45, 15, 176, 84, 187, 22],
   Bt = [82, 9, 106, 213, 48, 54, 165, 56, 191, 64, 163, 158, 129, 243, 215, 251, 124, 227, 57, 130, 155, 47, 255, 135, 52, 142, 67, 68, 196, 222, 233, 203, 84, 123, 148, 50, 166, 194, 35, 61, 238, 76, 149, 11, 66, 250, 195, 78, 8, 46, 161, 102, 40, 217, 36, 178, 118, 91, 162, 73, 109, 139, 209, 37, 114, 248, 246, 100, 134, 104, 152, 22, 212, 164, 92, 204, 93, 101, 182, 146, 108, 112, 72, 80, 253, 237, 185, 218, 94, 21, 70, 87, 167, 141, 157, 132, 144, 216, 171, 0, 140, 188, 211, 10, 247, 228, 88, 5, 184, 179, 69, 6, 208, 44, 30, 143, 202, 63, 15, 2, 193, 175, 189, 3, 1, 19, 138, 107, 58, 145, 17, 65, 79, 103, 220, 234, 151, 242, 207, 206, 240, 180, 230, 115, 150, 172, 116, 34, 231, 173, 53, 133, 226, 249, 55, 232, 28, 117, 223, 110, 71, 241, 26, 113, 29, 41, 197, 137, 111, 183, 98, 14, 170, 24, 190, 27, 252, 86, 62, 75, 198, 210, 121, 32, 154, 219, 192, 254, 120, 205, 90, 244, 31, 221, 168, 51, 136, 7, 199, 49, 177, 18, 16, 89, 39, 128, 236, 95, 96, 81, 127, 169, 25, 181, 74, 13, 45, 229, 122, 159, 147, 201, 156, 239, 160, 224, 59, 77, 174, 42, 245, 176, 200, 235, 187, 60, 131, 83, 153, 97, 23, 43, 4, 126, 186, 119, 214, 38, 225, 105, 20, 99, 85, 33, 12, 125],
   $t = [3328402341, 4168907908, 4000806809, 4135287693, 4294111757, 3597364157, 3731845041, 2445657428, 1613770832, 33620227, 3462883241, 1445669757, 3892248089, 3050821474, 1303096294, 3967186586, 2412431941, 528646813, 2311702848, 4202528135, 4026202645, 2992200171, 2387036105, 4226871307, 1101901292, 3017069671, 1604494077, 1169141738, 597466303, 1403299063, 3832705686, 2613100635, 1974974402, 3791519004, 1033081774, 1277568618, 1815492186, 2118074177, 4126668546, 2211236943, 1748251740, 1369810420, 3521504564, 4193382664, 3799085459, 2883115123, 1647391059, 706024767, 134480908, 2512897874, 1176707941, 2646852446, 806885416, 932615841, 168101135, 798661301, 235341577, 605164086, 461406363, 3756188221, 3454790438, 1311188841, 2142417613, 3933566367, 302582043, 495158174, 1479289972, 874125870, 907746093, 3698224818, 3025820398, 1537253627, 2756858614, 1983593293, 3084310113, 2108928974, 1378429307, 3722699582, 1580150641, 327451799, 2790478837, 3117535592, 0, 3253595436, 1075847264, 3825007647, 2041688520, 3059440621, 3563743934, 2378943302, 1740553945, 1916352843, 2487896798, 2555137236, 2958579944, 2244988746, 3151024235, 3320835882, 1336584933, 3992714006, 2252555205, 2588757463, 1714631509, 293963156, 2319795663, 3925473552, 67240454, 4269768577, 2689618160, 2017213508, 631218106, 1269344483, 2723238387, 1571005438, 2151694528, 93294474, 1066570413, 563977660, 1882732616, 4059428100, 1673313503, 2008463041, 2950355573, 1109467491, 537923632, 3858759450, 4260623118, 3218264685, 2177748300, 403442708, 638784309, 3287084079, 3193921505, 899127202, 2286175436, 773265209, 2479146071, 1437050866, 4236148354, 2050833735, 3362022572, 3126681063, 840505643, 3866325909, 3227541664, 427917720, 2655997905, 2749160575, 1143087718, 1412049534, 999329963, 193497219, 2353415882, 3354324521, 1807268051, 672404540, 2816401017, 3160301282, 369822493, 2916866934, 3688947771, 1681011286, 1949973070, 336202270, 2454276571, 201721354, 1210328172, 3093060836, 2680341085, 3184776046, 1135389935, 3294782118, 965841320, 831886756, 3554993207, 4068047243, 3588745010, 2345191491, 1849112409, 3664604599, 26054028, 2983581028, 2622377682, 1235855840, 3630984372, 2891339514, 4092916743, 3488279077, 3395642799, 4101667470, 1202630377, 268961816, 1874508501, 4034427016, 1243948399, 1546530418, 941366308, 1470539505, 1941222599, 2546386513, 3421038627, 2715671932, 3899946140, 1042226977, 2521517021, 1639824860, 227249030, 260737669, 3765465232, 2084453954, 1907733956, 3429263018, 2420656344, 100860677, 4160157185, 470683154, 3261161891, 1781871967, 2924959737, 1773779408, 394692241, 2579611992, 974986535, 664706745, 3655459128, 3958962195, 731420851, 571543859, 3530123707, 2849626480, 126783113, 865375399, 765172662, 1008606754, 361203602, 3387549984, 2278477385, 2857719295, 1344809080, 2782912378, 59542671, 1503764984, 160008576, 437062935, 1707065306, 3622233649, 2218934982, 3496503480, 2185314755, 697932208, 1512910199, 504303377, 2075177163, 2824099068, 1841019862, 739644986],
   Wt = [2781242211, 2230877308, 2582542199, 2381740923, 234877682, 3184946027, 2984144751, 1418839493, 1348481072, 50462977, 2848876391, 2102799147, 434634494, 1656084439, 3863849899, 2599188086, 1167051466, 2636087938, 1082771913, 2281340285, 368048890, 3954334041, 3381544775, 201060592, 3963727277, 1739838676, 4250903202, 3930435503, 3206782108, 4149453988, 2531553906, 1536934080, 3262494647, 484572669, 2923271059, 1783375398, 1517041206, 1098792767, 49674231, 1334037708, 1550332980, 4098991525, 886171109, 150598129, 2481090929, 1940642008, 1398944049, 1059722517, 201851908, 1385547719, 1699095331, 1587397571, 674240536, 2704774806, 252314885, 3039795866, 151914247, 908333586, 2602270848, 1038082786, 651029483, 1766729511, 3447698098, 2682942837, 454166793, 2652734339, 1951935532, 775166490, 758520603, 3000790638, 4004797018, 4217086112, 4137964114, 1299594043, 1639438038, 3464344499, 2068982057, 1054729187, 1901997871, 2534638724, 4121318227, 1757008337, 0, 750906861, 1614815264, 535035132, 3363418545, 3988151131, 3201591914, 1183697867, 3647454910, 1265776953, 3734260298, 3566750796, 3903871064, 1250283471, 1807470800, 717615087, 3847203498, 384695291, 3313910595, 3617213773, 1432761139, 2484176261, 3481945413, 283769337, 100925954, 2180939647, 4037038160, 1148730428, 3123027871, 3813386408, 4087501137, 4267549603, 3229630528, 2315620239, 2906624658, 3156319645, 1215313976, 82966005, 3747855548, 3245848246, 1974459098, 1665278241, 807407632, 451280895, 251524083, 1841287890, 1283575245, 337120268, 891687699, 801369324, 3787349855, 2721421207, 3431482436, 959321879, 1469301956, 4065699751, 2197585534, 1199193405, 2898814052, 3887750493, 724703513, 2514908019, 2696962144, 2551808385, 3516813135, 2141445340, 1715741218, 2119445034, 2872807568, 2198571144, 3398190662, 700968686, 3547052216, 1009259540, 2041044702, 3803995742, 487983883, 1991105499, 1004265696, 1449407026, 1316239930, 504629770, 3683797321, 168560134, 1816667172, 3837287516, 1570751170, 1857934291, 4014189740, 2797888098, 2822345105, 2754712981, 936633572, 2347923833, 852879335, 1133234376, 1500395319, 3084545389, 2348912013, 1689376213, 3533459022, 3762923945, 3034082412, 4205598294, 133428468, 634383082, 2949277029, 2398386810, 3913789102, 403703816, 3580869306, 2297460856, 1867130149, 1918643758, 607656988, 4049053350, 3346248884, 1368901318, 600565992, 2090982877, 2632479860, 557719327, 3717614411, 3697393085, 2249034635, 2232388234, 2430627952, 1115438654, 3295786421, 2865522278, 3633334344, 84280067, 33027830, 303828494, 2747425121, 1600795957, 4188952407, 3496589753, 2434238086, 1486471617, 658119965, 3106381470, 953803233, 334231800, 3005978776, 857870609, 3151128937, 1890179545, 2298973838, 2805175444, 3056442267, 574365214, 2450884487, 550103529, 1233637070, 4289353045, 2018519080, 2057691103, 2399374476, 4166623649, 2148108681, 387583245, 3664101311, 836232934, 3330556482, 3100665960, 3280093505, 2955516313, 2002398509, 287182607, 3413881008, 4238890068, 3597515707, 975967766],
@@ -13546,13 +13530,13 @@ var nn = /*#__PURE__*/function () {
         n = t >> 2, this._Ke[n][t % 4] = i[t], this._Kd[e - n][t % 4] = i[t];
       }
       for (var o, a = 0, c = r; c < s;) {
-        if (o = i[r - 1], i[0] ^= Mt[o >> 16 & 255] << 24 ^ Mt[o >> 8 & 255] << 16 ^ Mt[255 & o] << 8 ^ Mt[o >> 24 & 255] ^ jt[a] << 24, a += 1, 8 != r) for (t = 1; t < r; t++) {
+        if (o = i[r - 1], i[0] ^= jt[o >> 16 & 255] << 24 ^ jt[o >> 8 & 255] << 16 ^ jt[255 & o] << 8 ^ jt[o >> 24 & 255] ^ Mt[a] << 24, a += 1, 8 != r) for (t = 1; t < r; t++) {
           i[t] ^= i[t - 1];
         } else {
           for (t = 1; t < r / 2; t++) {
             i[t] ^= i[t - 1];
           }
-          o = i[r / 2 - 1], i[r / 2] ^= Mt[255 & o] ^ Mt[o >> 8 & 255] << 8 ^ Mt[o >> 16 & 255] << 16 ^ Mt[o >> 24 & 255] << 24;
+          o = i[r / 2 - 1], i[r / 2] ^= jt[255 & o] ^ jt[o >> 8 & 255] << 8 ^ jt[o >> 16 & 255] << 16 ^ jt[o >> 24 & 255] << 24;
           for (t = r / 2 + 1; t < r; t++) {
             i[t] ^= i[t - 1];
           }
@@ -13583,7 +13567,7 @@ var nn = /*#__PURE__*/function () {
       var o,
         a = Lt(16);
       for (r = 0; r < 4; r++) {
-        o = this._Ke[t][r], a[4 * r] = 255 & (Mt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (Mt[s[(r + 1) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (Mt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (Mt[255 & s[(r + 3) % 4]] ^ o);
+        o = this._Ke[t][r], a[4 * r] = 255 & (jt[s[r] >> 24 & 255] ^ o >> 24), a[4 * r + 1] = 255 & (jt[s[(r + 1) % 4] >> 16 & 255] ^ o >> 16), a[4 * r + 2] = 255 & (jt[s[(r + 2) % 4] >> 8 & 255] ^ o >> 8), a[4 * r + 3] = 255 & (jt[255 & s[(r + 3) % 4]] ^ o);
       }
       return a;
     }
@@ -15088,20 +15072,20 @@ var Kn = /*#__PURE__*/function (_ref38) {
   }]);
   return _class5;
 }());
-var jn = "token无效，跳转登录页面",
-  Mn = "token过期，跳转登录页面",
+var Mn = "token无效，跳转登录页面",
+  jn = "token过期，跳转登录页面",
   Bn = {
-    TOKEN_INVALID_TOKEN_EXPIRED: Mn,
-    TOKEN_INVALID_INVALID_CLIENTID: jn,
-    TOKEN_INVALID: jn,
-    TOKEN_INVALID_WRONG_TOKEN: jn,
-    TOKEN_INVALID_ANONYMOUS_USER: jn
+    TOKEN_INVALID_TOKEN_EXPIRED: jn,
+    TOKEN_INVALID_INVALID_CLIENTID: Mn,
+    TOKEN_INVALID: Mn,
+    TOKEN_INVALID_WRONG_TOKEN: Mn,
+    TOKEN_INVALID_ANONYMOUS_USER: Mn
   },
   $n = {
-    "uni-id-token-expired": Mn,
-    "uni-id-check-token-failed": jn,
-    "uni-id-token-not-exist": jn,
-    "uni-id-check-device-feature-failed": jn
+    "uni-id-token-expired": jn,
+    "uni-id-check-token-failed": Mn,
+    "uni-id-token-not-exist": Mn,
+    "uni-id-check-device-feature-failed": Mn
   };
 function Wn(e, t) {
   var n = "";
@@ -15332,17 +15316,13 @@ function us() {
     switch (t) {
       case "cloudobject":
         s = function (e) {
-          if ("object" != (0, _typeof2.default)(e)) return !1;
-          var _ref45 = e || {},
-            t = _ref45.errCode;
+          var t = e.errCode;
           return t in $n;
         }(n);
         break;
       case "clientdb":
         s = function (e) {
-          if ("object" != (0, _typeof2.default)(e)) return !1;
-          var _ref46 = e || {},
-            t = _ref46.errCode;
+          var t = e.errCode;
           return t in Bn;
         }(n);
     }
@@ -15431,9 +15411,9 @@ var gs = s(function (e, t) {
         return e.path;
       })), e;
     }
-    function i(e, t, _ref47) {
-      var s = _ref47.onChooseFile,
-        r = _ref47.onUploadProgress;
+    function i(e, t, _ref45) {
+      var s = _ref45.onChooseFile,
+        r = _ref45.onUploadProgress;
       return t.then(function (e) {
         if (s) {
           var _t17 = s(e);
@@ -15711,11 +15691,11 @@ function _s(e) {
       onMixinDatacomPropsChange: function onMixinDatacomPropsChange(e, t) {},
       mixinDatacomEasyGet: function mixinDatacomEasyGet() {
         var _this22 = this;
-        var _ref48 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-          _ref48$getone = _ref48.getone,
-          e = _ref48$getone === void 0 ? !1 : _ref48$getone,
-          t = _ref48.success,
-          n = _ref48.fail;
+        var _ref46 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+          _ref46$getone = _ref46.getone,
+          e = _ref46$getone === void 0 ? !1 : _ref46$getone,
+          t = _ref46.success,
+          n = _ref46.fail;
         this.mixinDatacomLoading || (this.mixinDatacomLoading = !0, this.mixinDatacomErrorMessage = "", this.mixinDatacomGet().then(function (n) {
           _this22.mixinDatacomLoading = !1;
           var _n$result = n.result,
@@ -15792,10 +15772,10 @@ function ws(e) {
     return new Proxy({}, {
       get: function get(s, c) {
         return function () {
-          var _ref49 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-            e = _ref49.fn,
-            t = _ref49.interceptorName,
-            n = _ref49.getCallbackArgs;
+          var _ref47 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+            e = _ref47.fn,
+            t = _ref47.interceptorName,
+            n = _ref47.getCallbackArgs;
           return /*#__PURE__*/(0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee49() {
             var _len2,
               s,
@@ -15864,7 +15844,7 @@ function ws(e) {
                 _key3,
                 d,
                 f,
-                _ref51,
+                _ref49,
                 p,
                 g,
                 m,
@@ -15914,7 +15894,7 @@ function ws(e) {
                         result: new Q(_context51.t0)
                       };
                     case 14:
-                      _ref51 = h.result || {}, p = _ref51.errSubject, g = _ref51.errCode, m = _ref51.errMsg, y = _ref51.newToken;
+                      _ref49 = h.result || {}, p = _ref49.errSubject, g = _ref49.errCode, m = _ref49.errMsg, y = _ref49.newToken;
                       if (!(a && uni.hideLoading(), y && y.token && y.tokenExpired && (ee(y), z(q, _objectSpread({}, y))), g)) {
                         _context51.next = 39;
                         break;
@@ -15966,7 +15946,7 @@ function ws(e) {
                     case 31:
                       _context51.next = 33;
                       return (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee50() {
-                        var _ref53,
+                        var _ref51,
                           e,
                           t,
                           n,
@@ -15977,7 +15957,7 @@ function ws(e) {
                           while (1) {
                             switch (_context50.prev = _context50.next) {
                               case 0:
-                                _ref53 = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : {}, e = _ref53.title, t = _ref53.content, n = _ref53.showCancel, s = _ref53.cancelText, r = _ref53.confirmText;
+                                _ref51 = _args3.length > 0 && _args3[0] !== undefined ? _args3[0] : {}, e = _ref51.title, t = _ref51.content, n = _ref51.showCancel, s = _ref51.cancelText, r = _ref51.confirmText;
                                 return _context50.abrupt("return", new Promise(function (i, o) {
                                   uni.showModal({
                                     title: e,
@@ -16025,12 +16005,12 @@ function ws(e) {
                         requestId: h.requestId
                       });
                       throw _n14.detail = h.result, z(D, {
-                        type: M,
+                        type: j,
                         content: _n14
                       }), _n14;
                     case 39:
                       return _context51.abrupt("return", (z(D, {
-                        type: M,
+                        type: j,
                         content: h.result
                       }), h.result));
                     case 40:
@@ -16047,8 +16027,8 @@ function ws(e) {
           }(),
           interceptorName: "callObject",
           getCallbackArgs: function getCallbackArgs() {
-            var _ref54 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-              e = _ref54.params;
+            var _ref52 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+              e = _ref52.params;
             return {
               objectName: t,
               methodName: c,
@@ -16068,8 +16048,8 @@ function Ss() {
 }
 function _Ss() {
   _Ss = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee53() {
-    var _ref58,
-      _ref58$callLoginByWei,
+    var _ref56,
+      _ref56$callLoginByWei,
       e,
       t,
       n,
@@ -16079,7 +16059,7 @@ function _Ss() {
       while (1) {
         switch (_context53.prev = _context53.next) {
           case 0:
-            _ref58 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref58$callLoginByWei = _ref58.callLoginByWeixin, e = _ref58$callLoginByWei === void 0 ? !1 : _ref58$callLoginByWei;
+            _ref56 = _args6.length > 0 && _args6[0] !== undefined ? _args6[0] : {}, _ref56$callLoginByWei = _ref56.callLoginByWeixin, e = _ref56$callLoginByWei === void 0 ? !1 : _ref56$callLoginByWei;
             t = vs(this);
             if (!("mp-weixin" !== S)) {
               _context53.next = 4;
@@ -16145,9 +16125,9 @@ function _ks() {
 }
 function Is(e) {
   return function () {
-    var _ref55 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      _ref55$callLoginByWei = _ref55.callLoginByWeixin,
-      t = _ref55$callLoginByWei === void 0 ? !1 : _ref55$callLoginByWei;
+    var _ref53 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      _ref53$callLoginByWei = _ref53.callLoginByWeixin,
+      t = _ref53$callLoginByWei === void 0 ? !1 : _ref53$callLoginByWei;
     return ks.call(e, {
       callLoginByWeixin: t
     });
@@ -16226,7 +16206,7 @@ function Ts(e) {
         _t20 = _e$__dev__$debugInfo.address,
         _n15 = _e$__dev__$debugInfo.servePort;
       return function () {
-        var _ref56 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee52(e, t) {
+        var _ref54 = (0, _asyncToGenerator2.default)( /*#__PURE__*/_regenerator.default.mark(function _callee52(e, t) {
           var n, _s15, _r7;
           return _regenerator.default.wrap(function _callee52$(_context52) {
             while (1) {
@@ -16265,14 +16245,14 @@ function Ts(e) {
           }, _callee52);
         }));
         return function (_x40, _x41) {
-          return _ref56.apply(this, arguments);
+          return _ref54.apply(this, arguments);
         };
       }()(_t20, _n15);
     }
   }).then(function () {
-    var _ref57 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
-      t = _ref57.address,
-      n = _ref57.port;
+    var _ref55 = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : {},
+      t = _ref55.address,
+      n = _ref55.port;
     if (!y) return Promise.resolve();
     var s = console["app" === S ? "error" : "warn"];
     if (t) e.__dev__.localAddress = t, e.__dev__.localPort = n;else if (e.__dev__.debugInfo) {
@@ -16878,9 +16858,9 @@ module.exports = _isNativeFunction, module.exports.__esModule = true, module.exp
 
 /***/ }),
 /* 37 */
-/*!**************************************************************!*\
-  !*** E:/project/WMS/pages.json?{"type":"origin-pages-json"} ***!
-  \**************************************************************/
+/*!******************************************************!*\
+  !*** F:/WMS/pages.json?{"type":"origin-pages-json"} ***!
+  \******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16928,9 +16908,9 @@ exports.default = _default;
 
 /***/ }),
 /* 38 */
-/*!*************************************************!*\
-  !*** E:/project/WMS/pages.json?{"type":"stat"} ***!
-  \*************************************************/
+/*!*****************************************!*\
+  !*** F:/WMS/pages.json?{"type":"stat"} ***!
+  \*****************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -16999,9 +16979,6 @@ function normalizeComponent (
   }
   // fixed by xxxxxx renderjs
   if (renderjs) {
-    if(typeof renderjs.beforeCreate === 'function'){
-			renderjs.beforeCreate = [renderjs.beforeCreate]
-		}
     (renderjs.beforeCreate || (renderjs.beforeCreate = [])).unshift(function() {
       this[renderjs.__module] = this
     });
@@ -17084,9 +17061,9 @@ function normalizeComponent (
 
 /***/ }),
 /* 45 */
-/*!*****************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/index.js ***!
-  \*****************************************************/
+/*!*********************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/index.js ***!
+  \*********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17173,9 +17150,9 @@ exports.default = _default;
 
 /***/ }),
 /* 46 */
-/*!****************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/mixin/mixin.js ***!
-  \****************************************************************/
+/*!********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/mixin/mixin.js ***!
+  \********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17341,9 +17318,9 @@ exports.default = _default;
 
 /***/ }),
 /* 47 */
-/*!******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/mixin/mpMixin.js ***!
-  \******************************************************************/
+/*!**********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/mixin/mpMixin.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17364,9 +17341,9 @@ exports.default = _default;
 
 /***/ }),
 /* 48 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/index.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/index.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17384,9 +17361,9 @@ exports.default = _default;
 
 /***/ }),
 /* 49 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/Request.js ***!
-  \******************************************************************************/
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/Request.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17590,9 +17567,9 @@ exports.default = Request;
 
 /***/ }),
 /* 50 */
-/*!**************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
-  \**************************************************************************************/
+/*!******************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/dispatchRequest.js ***!
+  \******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17612,9 +17589,9 @@ exports.default = _default;
 
 /***/ }),
 /* 51 */
-/*!********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/adapters/index.js ***!
-  \********************************************************************************/
+/*!************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/adapters/index.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17693,9 +17670,9 @@ exports.default = _default;
 
 /***/ }),
 /* 52 */
-/*!**********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
-  \**********************************************************************************/
+/*!**************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/helpers/buildURL.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17763,9 +17740,9 @@ function buildURL(url, params) {
 
 /***/ }),
 /* 53 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/utils.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/utils.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17916,9 +17893,9 @@ function isUndefined(val) {
 
 /***/ }),
 /* 54 */
-/*!************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
-  \************************************************************************************/
+/*!****************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/buildFullPath.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17950,9 +17927,9 @@ function buildFullPath(baseURL, requestedURL) {
 
 /***/ }),
 /* 55 */
-/*!***************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
-  \***************************************************************************************/
+/*!*******************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/helpers/isAbsoluteURL.js ***!
+  \*******************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -17978,9 +17955,9 @@ function isAbsoluteURL(url) {
 
 /***/ }),
 /* 56 */
-/*!*************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
-  \*************************************************************************************/
+/*!*****************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/helpers/combineURLs.js ***!
+  \*****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18004,9 +17981,9 @@ function combineURLs(baseURL, relativeURL) {
 
 /***/ }),
 /* 57 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/settle.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/settle.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18036,9 +18013,9 @@ function settle(resolve, reject, response) {
 
 /***/ }),
 /* 58 */
-/*!*****************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
-  \*****************************************************************************************/
+/*!*********************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/InterceptorManager.js ***!
+  \*********************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18100,9 +18077,9 @@ exports.default = _default;
 
 /***/ }),
 /* 59 */
-/*!**********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
-  \**********************************************************************************/
+/*!**************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/mergeConfig.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18176,9 +18153,9 @@ exports.default = _default;
 
 /***/ }),
 /* 60 */
-/*!*******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/core/defaults.js ***!
-  \*******************************************************************************/
+/*!***********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/core/defaults.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -18208,9 +18185,9 @@ exports.default = _default;
 
 /***/ }),
 /* 61 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/luch-request/utils/clone.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/luch-request/utils/clone.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20532,9 +20509,9 @@ module.exports = Array.isArray || function (arr) {
 
 /***/ }),
 /* 66 */
-/*!***************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/util/route.js ***!
-  \***************************************************************/
+/*!*******************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/util/route.js ***!
+  \*******************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20720,9 +20697,9 @@ exports.default = _default;
 
 /***/ }),
 /* 67 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/colorGradient.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/colorGradient.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -20875,9 +20852,9 @@ exports.default = _default;
 
 /***/ }),
 /* 68 */
-/*!******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/test.js ***!
-  \******************************************************************/
+/*!**********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/test.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21180,9 +21157,9 @@ exports.default = _default;
 
 /***/ }),
 /* 69 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/debounce.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/debounce.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21227,9 +21204,9 @@ exports.default = _default;
 
 /***/ }),
 /* 70 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/throttle.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/throttle.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -21276,9 +21253,9 @@ exports.default = _default;
 
 /***/ }),
 /* 71 */
-/*!*******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/index.js ***!
-  \*******************************************************************/
+/*!***********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/index.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22037,9 +22014,9 @@ exports.default = _default;
 
 /***/ }),
 /* 72 */
-/*!*******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/digit.js ***!
-  \*******************************************************************/
+/*!***********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/digit.js ***!
+  \***********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22256,9 +22233,9 @@ module.exports = _toArray, module.exports.__esModule = true, module.exports["def
 
 /***/ }),
 /* 74 */
-/*!******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/config.js ***!
-  \******************************************************************/
+/*!**********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/config.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22300,9 +22277,9 @@ exports.default = _default;
 
 /***/ }),
 /* 75 */
-/*!*****************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props.js ***!
-  \*****************************************************************/
+/*!*********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22412,9 +22389,9 @@ exports.default = _default;
 
 /***/ }),
 /* 76 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/actionSheet.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/actionSheet.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22456,9 +22433,9 @@ exports.default = _default;
 
 /***/ }),
 /* 77 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/album.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/album.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22500,9 +22477,9 @@ exports.default = _default;
 
 /***/ }),
 /* 78 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/alert.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/alert.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22539,9 +22516,9 @@ exports.default = _default;
 
 /***/ }),
 /* 79 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/avatar.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/avatar.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22584,9 +22561,9 @@ exports.default = _default;
 
 /***/ }),
 /* 80 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/avatarGroup.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/avatarGroup.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22626,9 +22603,9 @@ exports.default = _default;
 
 /***/ }),
 /* 81 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/backtop.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/backtop.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22672,9 +22649,9 @@ exports.default = _default;
 
 /***/ }),
 /* 82 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/badge.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/badge.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22718,9 +22695,9 @@ exports.default = _default;
 
 /***/ }),
 /* 83 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/button.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/button.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22777,9 +22754,9 @@ exports.default = _default;
 
 /***/ }),
 /* 84 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/calendar.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/calendar.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22840,9 +22817,9 @@ exports.default = _default;
 
 /***/ }),
 /* 85 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/carKeyboard.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/carKeyboard.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22872,9 +22849,9 @@ exports.default = _default;
 
 /***/ }),
 /* 86 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/cell.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/cell.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22924,9 +22901,9 @@ exports.default = _default;
 
 /***/ }),
 /* 87 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/cellGroup.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/cellGroup.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -22958,9 +22935,9 @@ exports.default = _default;
 
 /***/ }),
 /* 88 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/checkbox.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/checkbox.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23002,9 +22979,9 @@ exports.default = _default;
 
 /***/ }),
 /* 89 */
-/*!*******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
-  \*******************************************************************************/
+/*!***********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/checkboxGroup.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23050,9 +23027,9 @@ exports.default = _default;
 
 /***/ }),
 /* 90 */
-/*!********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/circleProgress.js ***!
-  \********************************************************************************/
+/*!************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/circleProgress.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23082,9 +23059,9 @@ exports.default = _default;
 
 /***/ }),
 /* 91 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/code.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/code.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23119,9 +23096,9 @@ exports.default = _default;
 
 /***/ }),
 /* 92 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/codeInput.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/codeInput.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23165,9 +23142,9 @@ exports.default = _default;
 
 /***/ }),
 /* 93 */
-/*!*********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/col.js ***!
-  \*********************************************************************/
+/*!*************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/col.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23201,9 +23178,9 @@ exports.default = _default;
 
 /***/ }),
 /* 94 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/collapse.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/collapse.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23235,9 +23212,9 @@ exports.default = _default;
 
 /***/ }),
 /* 95 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/collapseItem.js ***!
-  \******************************************************************************/
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/collapseItem.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23277,9 +23254,9 @@ exports.default = _default;
 
 /***/ }),
 /* 96 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/columnNotice.js ***!
-  \******************************************************************************/
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/columnNotice.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23318,9 +23295,9 @@ exports.default = _default;
 
 /***/ }),
 /* 97 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/countDown.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/countDown.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23353,9 +23330,9 @@ exports.default = _default;
 
 /***/ }),
 /* 98 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/countTo.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/countTo.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23395,9 +23372,9 @@ exports.default = _default;
 
 /***/ }),
 /* 99 */
-/*!********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/datetimePicker.js ***!
-  \********************************************************************************/
+/*!************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/datetimePicker.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23450,9 +23427,9 @@ exports.default = _default;
 
 /***/ }),
 /* 100 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/divider.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/divider.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23489,9 +23466,9 @@ exports.default = _default;
 
 /***/ }),
 /* 101 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/empty.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/empty.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23531,9 +23508,9 @@ exports.default = _default;
 
 /***/ }),
 /* 102 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/form.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/form.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23576,9 +23553,9 @@ exports.default = _default;
 
 /***/ }),
 /* 103 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/formItem.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/formItem.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23616,9 +23593,9 @@ exports.default = _default;
 
 /***/ }),
 /* 104 */
-/*!*********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/gap.js ***!
-  \*********************************************************************/
+/*!*************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/gap.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23652,9 +23629,9 @@ exports.default = _default;
 
 /***/ }),
 /* 105 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/grid.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/grid.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23686,9 +23663,9 @@ exports.default = _default;
 
 /***/ }),
 /* 106 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/gridItem.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/gridItem.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23719,9 +23696,9 @@ exports.default = _default;
 
 /***/ }),
 /* 107 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/icon.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/icon.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23771,9 +23748,9 @@ exports.default = _default;
 
 /***/ }),
 /* 108 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/image.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/image.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23818,9 +23795,9 @@ exports.default = _default;
 
 /***/ }),
 /* 109 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/indexAnchor.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/indexAnchor.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23854,9 +23831,9 @@ exports.default = _default;
 
 /***/ }),
 /* 110 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/indexList.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/indexList.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23892,9 +23869,9 @@ exports.default = _default;
 
 /***/ }),
 /* 111 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/input.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/input.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -23957,9 +23934,9 @@ exports.default = _default;
 
 /***/ }),
 /* 112 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/keyboard.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/keyboard.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24004,9 +23981,9 @@ exports.default = _default;
 
 /***/ }),
 /* 113 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/line.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/line.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24041,9 +24018,9 @@ exports.default = _default;
 
 /***/ }),
 /* 114 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/lineProgress.js ***!
-  \******************************************************************************/
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/lineProgress.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24077,9 +24054,9 @@ exports.default = _default;
 
 /***/ }),
 /* 115 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/link.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/link.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24119,9 +24096,9 @@ exports.default = _default;
 
 /***/ }),
 /* 116 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/list.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/list.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24164,9 +24141,9 @@ exports.default = _default;
 
 /***/ }),
 /* 117 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/listItem.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/listItem.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24196,9 +24173,9 @@ exports.default = _default;
 
 /***/ }),
 /* 118 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/loadingIcon.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/loadingIcon.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24242,9 +24219,9 @@ exports.default = _default;
 
 /***/ }),
 /* 119 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/loadingPage.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/loadingPage.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24282,9 +24259,9 @@ exports.default = _default;
 
 /***/ }),
 /* 120 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/loadmore.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/loadmore.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24331,9 +24308,9 @@ exports.default = _default;
 
 /***/ }),
 /* 121 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/modal.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/modal.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24378,9 +24355,9 @@ exports.default = _default;
 
 /***/ }),
 /* 122 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/navbar.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/navbar.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24427,9 +24404,9 @@ exports.default = _default;
 
 /***/ }),
 /* 123 */
-/*!*****************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/color.js ***!
-  \*****************************************************************/
+/*!*********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/color.js ***!
+  \*********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24460,9 +24437,9 @@ exports.default = _default;
 
 /***/ }),
 /* 124 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/noNetwork.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/noNetwork.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24494,9 +24471,9 @@ exports.default = _default;
 
 /***/ }),
 /* 125 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/noticeBar.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/noticeBar.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24540,9 +24517,9 @@ exports.default = _default;
 
 /***/ }),
 /* 126 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/notify.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/notify.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24579,9 +24556,9 @@ exports.default = _default;
 
 /***/ }),
 /* 127 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/numberBox.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/numberBox.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24631,9 +24608,9 @@ exports.default = _default;
 
 /***/ }),
 /* 128 */
-/*!********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
-  \********************************************************************************/
+/*!************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/numberKeyboard.js ***!
+  \************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24665,9 +24642,9 @@ exports.default = _default;
 
 /***/ }),
 /* 129 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/overlay.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/overlay.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24700,9 +24677,9 @@ exports.default = _default;
 
 /***/ }),
 /* 130 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/parse.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/parse.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24739,9 +24716,9 @@ exports.default = _default;
 
 /***/ }),
 /* 131 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/picker.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/picker.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24789,9 +24766,9 @@ exports.default = _default;
 
 /***/ }),
 /* 132 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/popup.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/popup.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24835,9 +24812,9 @@ exports.default = _default;
 
 /***/ }),
 /* 133 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/radio.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/radio.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24879,9 +24856,9 @@ exports.default = _default;
 
 /***/ }),
 /* 134 */
-/*!****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/radioGroup.js ***!
-  \****************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/radioGroup.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24926,9 +24903,9 @@ exports.default = _default;
 
 /***/ }),
 /* 135 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/rate.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/rate.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -24969,9 +24946,9 @@ exports.default = _default;
 
 /***/ }),
 /* 136 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/readMore.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/readMore.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25008,9 +24985,9 @@ exports.default = _default;
 
 /***/ }),
 /* 137 */
-/*!*********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/row.js ***!
-  \*********************************************************************/
+/*!*************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/row.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25042,9 +25019,9 @@ exports.default = _default;
 
 /***/ }),
 /* 138 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/rowNotice.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/rowNotice.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25080,9 +25057,9 @@ exports.default = _default;
 
 /***/ }),
 /* 139 */
-/*!****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/scrollList.js ***!
-  \****************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/scrollList.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25117,9 +25094,9 @@ exports.default = _default;
 
 /***/ }),
 /* 140 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/search.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/search.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25175,9 +25152,9 @@ exports.default = _default;
 
 /***/ }),
 /* 141 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/section.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/section.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25216,9 +25193,9 @@ exports.default = _default;
 
 /***/ }),
 /* 142 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/skeleton.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/skeleton.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25258,9 +25235,9 @@ exports.default = _default;
 
 /***/ }),
 /* 143 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/slider.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/slider.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25300,9 +25277,9 @@ exports.default = _default;
 
 /***/ }),
 /* 144 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/statusBar.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/statusBar.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25332,9 +25309,9 @@ exports.default = _default;
 
 /***/ }),
 /* 145 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/steps.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/steps.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25370,9 +25347,9 @@ exports.default = _default;
 
 /***/ }),
 /* 146 */
-/*!***************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/stepsItem.js ***!
-  \***************************************************************************/
+/*!*******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/stepsItem.js ***!
+  \*******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25405,9 +25382,9 @@ exports.default = _default;
 
 /***/ }),
 /* 147 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/sticky.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/sticky.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25442,9 +25419,9 @@ exports.default = _default;
 
 /***/ }),
 /* 148 */
-/*!****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/subsection.js ***!
-  \****************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/subsection.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25482,9 +25459,9 @@ exports.default = _default;
 
 /***/ }),
 /* 149 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/swipeAction.js ***!
-  \*****************************************************************************/
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/swipeAction.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25514,9 +25491,9 @@ exports.default = _default;
 
 /***/ }),
 /* 150 */
-/*!*********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
-  \*********************************************************************************/
+/*!*************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/swipeActionItem.js ***!
+  \*************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25552,9 +25529,9 @@ exports.default = _default;
 
 /***/ }),
 /* 151 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/swiper.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/swiper.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25609,9 +25586,9 @@ exports.default = _default;
 
 /***/ }),
 /* 152 */
-/*!**********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
-  \**********************************************************************************/
+/*!**************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/swipterIndicator.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25645,9 +25622,9 @@ exports.default = _default;
 
 /***/ }),
 /* 153 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/switch.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/switch.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25686,9 +25663,9 @@ exports.default = _default;
 
 /***/ }),
 /* 154 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/tabbar.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/tabbar.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25725,9 +25702,9 @@ exports.default = _default;
 
 /***/ }),
 /* 155 */
-/*!****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/tabbarItem.js ***!
-  \****************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/tabbarItem.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25762,9 +25739,9 @@ exports.default = _default;
 
 /***/ }),
 /* 156 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/tabs.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/tabs.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25819,9 +25796,9 @@ exports.default = _default;
 
 /***/ }),
 /* 157 */
-/*!*********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/tag.js ***!
-  \*********************************************************************/
+/*!*************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/tag.js ***!
+  \*************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25865,9 +25842,9 @@ exports.default = _default;
 
 /***/ }),
 /* 158 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/text.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/text.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25921,9 +25898,9 @@ exports.default = _default;
 
 /***/ }),
 /* 159 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/textarea.js ***!
-  \**************************************************************************/
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/textarea.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -25974,9 +25951,9 @@ exports.default = _default;
 
 /***/ }),
 /* 160 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/toast.js ***!
-  \***********************************************************************/
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/toast.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26020,9 +25997,9 @@ exports.default = _default;
 
 /***/ }),
 /* 161 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/toolbar.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/toolbar.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26057,9 +26034,9 @@ exports.default = _default;
 
 /***/ }),
 /* 162 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/tooltip.js ***!
-  \*************************************************************************/
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/tooltip.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26101,9 +26078,9 @@ exports.default = _default;
 
 /***/ }),
 /* 163 */
-/*!****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/transition.js ***!
-  \****************************************************************************/
+/*!********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/transition.js ***!
+  \********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26136,9 +26113,9 @@ exports.default = _default;
 
 /***/ }),
 /* 164 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/props/upload.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/props/upload.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26195,9 +26172,9 @@ exports.default = _default;
 
 /***/ }),
 /* 165 */
-/*!******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/config/zIndex.js ***!
-  \******************************************************************/
+/*!**********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/config/zIndex.js ***!
+  \**********************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26231,9 +26208,9 @@ exports.default = _default;
 
 /***/ }),
 /* 166 */
-/*!**********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/function/platform.js ***!
-  \**********************************************************************/
+/*!**************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/function/platform.js ***!
+  \**************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26267,9 +26244,9 @@ exports.default = _default;
 /* 171 */,
 /* 172 */,
 /* 173 */
-/*!******************************************************!*\
-  !*** E:/project/WMS/static/JS/custom/index/index.js ***!
-  \******************************************************/
+/*!**********************************************!*\
+  !*** F:/WMS/static/JS/custom/index/index.js ***!
+  \**********************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26343,9 +26320,9 @@ function login() {
 /* 180 */,
 /* 181 */,
 /* 182 */
-/*!********************************************************!*\
-  !*** E:/project/WMS/static/JS/custom/detail/detail.js ***!
-  \********************************************************/
+/*!************************************************!*\
+  !*** F:/WMS/static/JS/custom/detail/detail.js ***!
+  \************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26356,12 +26333,13 @@ Object.defineProperty(exports, "__esModule", {
   value: true
 });
 exports.change = change;
+exports.check = check;
 exports.onLoad = onLoad;
 exports.search = search;
 var _App = __webpack_require__(/*! ../../../../App.vue */ 39);
 // 监听页面加载
 function onLoad(options) {
-  (0, _App.checkLoginStatus)();
+  (0, _App.checkLoginStatus)(); //检查登录状态
   var that = this;
   that.id = Number(options.id);
   (0, _App.execSql)('wms', (0, _App.objValue)('stock', 'queryStock', that.id, null, null, null, null), function (res) {
@@ -26371,28 +26349,37 @@ function onLoad(options) {
     that.statusContent = that.stock[0].status; //借出状态
     that.value = that.stock[0].status; // u-switch 双向绑定 依据借出状态
     that.input = that.stock[0].status; // u-input 双向绑定 依据借出状态
+    if (that.statusContent) {
+      // 判断借出状态来决定是否启用输入框
+      that.input = true; // 禁用输入框
+      that.show = true; // 显示switch
+    } else {
+      that.input = false; // 启用输入框
+    }
   });
 
   (0, _App.execSql)('wms', (0, _App.objValue)('record', 'queryRecord', that.id, null, null, null, null), function (res) {
     that.record = res.result.data.reverse(); // 按最新时间排序 
-    that.recordArray = that.record; // 存进recordArray数组 模糊搜索需要用到
+    that.recordArray = that.record; // 存进recordArray数组 模糊搜索所需参数
   });
 }
 // Switch状态发生改变校验完毕执行数据库操作
 function change() {
   var that = this;
+  var namereg = /^[\u4e00-\u9fa5]{2,4}$/; // 姓名正则
+  var phonereg = /^1[3456789]\d{9}$/; // 手机号正则
   // 更新库存、记录状态
   function update() {
     that.status = true;
     that.statusContent = !that.statusContent;
     // objValue(tablename, api, id, name, phone, time, status)
     // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态) 没有填null
-    (0, _App.execSql)('wms', (0, _App.objValue)('record', 'addRecord', that.id, that.name, that.phone, (0, _App.time)(), that.value), function (res) {
-      (0, _App.execSql)('wms', (0, _App.objValue)('stock', 'updateStock', that.id, that.name, that.phone, null, that.value), function (res) {
+    (0, _App.execSql)('wms', (0, _App.objValue)('record', 'addRecord', that.id, that.name.trim(), that.phone.trim(), (0, _App.time)(), that.value), function (res) {
+      (0, _App.execSql)('wms', (0, _App.objValue)('stock', 'updateStock', that.id, that.name.trim(), that.phone.trim(), null, that.value), function (res) {
+        that.input = false; // 解除输入框禁用
         var title = that.value == false ? "归还成功" : "借出成功"; // 定义弹窗文字
         that.name = ""; // 姓名清空
         that.phone = ""; // 手机号清空
-        that.input = false; // 输入框解除禁用
         uni.showToast({
           title: title,
           icon: 'success'
@@ -26403,16 +26390,12 @@ function change() {
       });
     });
   }
-  if (!that.statusContent) {
-    if (that.name !== "" && that.phone.length === 11) {
-      update();
-    } else {
-      uni.showToast({
-        title: '请检查',
-        icon: 'error'
-      });
-      that.value = !that.value;
-    }
+  if (!namereg.test(that.name) || !phonereg.test(that.phone)) {
+    // 正则判断 符合则更新 不符合则弹窗提示
+    uni.showToast({
+      title: '请检查',
+      icon: 'error'
+    });
   } else {
     update();
   }
@@ -26423,16 +26406,30 @@ function search(v, arr) {
   var that = this;
   var itemarr = [];
   if (v == "") {
-    that.record = arr;
+    that.record = arr; // 恢复原来的数据
   }
+
   that.record.filter(function (item) {
     if (item.name.indexOf(v) !== -1 || item.phone.indexOf(v) !== -1) {
-      itemarr.push(item);
+      itemarr.push(item); // 符合条件插入到新数组
     } else {
       itemarr = itemarr;
     }
-    that.record = itemarr;
+    that.record = itemarr; // 显示匹配成功的结果
   });
+}
+// 正则校验
+function check() {
+  var that = this;
+  var namereg = /^[\u4e00-\u9fa5]{2,4}$/; // 姓名正则
+  var phonereg = /^1[3456789]\d{9}$/; // 手机号正则
+  if (that.name !== null && that.phone !== null) {
+    // 正则判断 符合则进行下一步 不符合则弹窗提示
+    namereg.test(that.name) && phonereg.test(that.phone) ? that.show = true : uni.showToast({
+      title: '请检查',
+      icon: 'error'
+    });
+  }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
@@ -26451,9 +26448,9 @@ function search(v, arr) {
 /* 194 */,
 /* 195 */,
 /* 196 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-popup/props.js ***!
-  \************************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-popup/props.js ***!
+  \****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26555,9 +26552,477 @@ exports.default = _default;
 /* 202 */,
 /* 203 */,
 /* 204 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-icon/icons.js ***!
-  \***********************************************************************/
+/*!****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-input/props.js ***!
+  \****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 输入的值
+    value: {
+      type: [String, Number],
+      default: uni.$u.props.input.value
+    },
+    // 输入框类型
+    // number-数字输入键盘，app-vue下可以输入浮点数，app-nvue和小程序平台下只能输入整数
+    // idcard-身份证输入键盘，微信、支付宝、百度、QQ小程序
+    // digit-带小数点的数字键盘，App的nvue页面、微信、支付宝、百度、头条、QQ小程序
+    // text-文本输入键盘
+    type: {
+      type: String,
+      default: uni.$u.props.input.type
+    },
+    // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，
+    // 兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序
+    fixed: {
+      type: Boolean,
+      default: uni.$u.props.input.fixed
+    },
+    // 是否禁用输入框
+    disabled: {
+      type: Boolean,
+      default: uni.$u.props.input.disabled
+    },
+    // 禁用状态时的背景色
+    disabledColor: {
+      type: String,
+      default: uni.$u.props.input.disabledColor
+    },
+    // 是否显示清除控件
+    clearable: {
+      type: Boolean,
+      default: uni.$u.props.input.clearable
+    },
+    // 是否密码类型
+    password: {
+      type: Boolean,
+      default: uni.$u.props.input.password
+    },
+    // 最大输入长度，设置为 -1 的时候不限制最大长度
+    maxlength: {
+      type: [String, Number],
+      default: uni.$u.props.input.maxlength
+    },
+    // 	输入框为空时的占位符
+    placeholder: {
+      type: String,
+      default: uni.$u.props.input.placeholder
+    },
+    // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
+    placeholderClass: {
+      type: String,
+      default: uni.$u.props.input.placeholderClass
+    },
+    // 指定placeholder的样式
+    placeholderStyle: {
+      type: [String, Object],
+      default: uni.$u.props.input.placeholderStyle
+    },
+    // 是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效
+    showWordLimit: {
+      type: Boolean,
+      default: uni.$u.props.input.showWordLimit
+    },
+    // 设置右下角按钮的文字，有效值：send|search|next|go|done，兼容性详见uni-app文档
+    // https://uniapp.dcloud.io/component/input
+    // https://uniapp.dcloud.io/component/textarea
+    confirmType: {
+      type: String,
+      default: uni.$u.props.input.confirmType
+    },
+    // 点击键盘右下角按钮时是否保持键盘不收起，H5无效
+    confirmHold: {
+      type: Boolean,
+      default: uni.$u.props.input.confirmHold
+    },
+    // focus时，点击页面的时候不收起键盘，微信小程序有效
+    holdKeyboard: {
+      type: Boolean,
+      default: uni.$u.props.input.holdKeyboard
+    },
+    // 自动获取焦点
+    // 在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点
+    focus: {
+      type: Boolean,
+      default: uni.$u.props.input.focus
+    },
+    // 键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效
+    autoBlur: {
+      type: Boolean,
+      default: uni.$u.props.input.autoBlur
+    },
+    // 是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效
+    disableDefaultPadding: {
+      type: Boolean,
+      default: uni.$u.props.input.disableDefaultPadding
+    },
+    // 指定focus时光标的位置
+    cursor: {
+      type: [String, Number],
+      default: uni.$u.props.input.cursor
+    },
+    // 输入框聚焦时底部与键盘的距离
+    cursorSpacing: {
+      type: [String, Number],
+      default: uni.$u.props.input.cursorSpacing
+    },
+    // 光标起始位置，自动聚集时有效，需与selection-end搭配使用
+    selectionStart: {
+      type: [String, Number],
+      default: uni.$u.props.input.selectionStart
+    },
+    // 光标结束位置，自动聚集时有效，需与selection-start搭配使用
+    selectionEnd: {
+      type: [String, Number],
+      default: uni.$u.props.input.selectionEnd
+    },
+    // 键盘弹起时，是否自动上推页面
+    adjustPosition: {
+      type: Boolean,
+      default: uni.$u.props.input.adjustPosition
+    },
+    // 输入框内容对齐方式，可选值为：left|center|right
+    inputAlign: {
+      type: String,
+      default: uni.$u.props.input.inputAlign
+    },
+    // 输入框字体的大小
+    fontSize: {
+      type: [String, Number],
+      default: uni.$u.props.input.fontSize
+    },
+    // 输入框字体颜色
+    color: {
+      type: String,
+      default: uni.$u.props.input.color
+    },
+    // 输入框前置图标
+    prefixIcon: {
+      type: String,
+      default: uni.$u.props.input.prefixIcon
+    },
+    // 前置图标样式，对象或字符串
+    prefixIconStyle: {
+      type: [String, Object],
+      default: uni.$u.props.input.prefixIconStyle
+    },
+    // 输入框后置图标
+    suffixIcon: {
+      type: String,
+      default: uni.$u.props.input.suffixIcon
+    },
+    // 后置图标样式，对象或字符串
+    suffixIconStyle: {
+      type: [String, Object],
+      default: uni.$u.props.input.suffixIconStyle
+    },
+    // 边框类型，surround-四周边框，bottom-底部边框，none-无边框
+    border: {
+      type: String,
+      default: uni.$u.props.input.border
+    },
+    // 是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会
+    readonly: {
+      type: Boolean,
+      default: uni.$u.props.input.readonly
+    },
+    // 输入框形状，circle-圆形，square-方形
+    shape: {
+      type: String,
+      default: uni.$u.props.input.shape
+    },
+    // 用于处理或者过滤输入框内容的方法
+    formatter: {
+      type: [Function, null],
+      default: uni.$u.props.input.formatter
+    },
+    // 是否忽略组件内对文本合成系统事件的处理
+    ignoreCompositionEvent: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */
+/*!*********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/mixin/button.js ***!
+  \*********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    lang: String,
+    sessionFrom: String,
+    sendMessageTitle: String,
+    sendMessagePath: String,
+    sendMessageImg: String,
+    showMessageCard: Boolean,
+    appParameter: String,
+    formType: String,
+    openType: String
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 211 */
+/*!***********************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/libs/mixin/openType.js ***!
+  \***********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    openType: String
+  },
+  methods: {
+    onGetUserInfo: function onGetUserInfo(event) {
+      this.$emit('getuserinfo', event.detail);
+    },
+    onContact: function onContact(event) {
+      this.$emit('contact', event.detail);
+    },
+    onGetPhoneNumber: function onGetPhoneNumber(event) {
+      this.$emit('getphonenumber', event.detail);
+    },
+    onError: function onError(event) {
+      this.$emit('error', event.detail);
+    },
+    onLaunchApp: function onLaunchApp(event) {
+      this.$emit('launchapp', event.detail);
+    },
+    onOpenSetting: function onOpenSetting(event) {
+      this.$emit('opensetting', event.detail);
+    }
+  }
+};
+exports.default = _default;
+
+/***/ }),
+/* 212 */
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-button/props.js ***!
+  \*****************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+/*
+ * @Author       : LQ
+ * @Description  :
+ * @version      : 1.0
+ * @Date         : 2021-08-16 10:04:04
+ * @LastAuthor   : LQ
+ * @lastTime     : 2021-08-16 10:04:24
+ * @FilePath     : /u-view2.0/uview-ui/components/u-button/props.js
+ */
+var _default = {
+  props: {
+    // 是否细边框
+    hairline: {
+      type: Boolean,
+      default: uni.$u.props.button.hairline
+    },
+    // 按钮的预置样式，info，primary，error，warning，success
+    type: {
+      type: String,
+      default: uni.$u.props.button.type
+    },
+    // 按钮尺寸，large，normal，small，mini
+    size: {
+      type: String,
+      default: uni.$u.props.button.size
+    },
+    // 按钮形状，circle（两边为半圆），square（带圆角）
+    shape: {
+      type: String,
+      default: uni.$u.props.button.shape
+    },
+    // 按钮是否镂空
+    plain: {
+      type: Boolean,
+      default: uni.$u.props.button.plain
+    },
+    // 是否禁止状态
+    disabled: {
+      type: Boolean,
+      default: uni.$u.props.button.disabled
+    },
+    // 是否加载中
+    loading: {
+      type: Boolean,
+      default: uni.$u.props.button.loading
+    },
+    // 加载中提示文字
+    loadingText: {
+      type: [String, Number],
+      default: uni.$u.props.button.loadingText
+    },
+    // 加载状态图标类型
+    loadingMode: {
+      type: String,
+      default: uni.$u.props.button.loadingMode
+    },
+    // 加载图标大小
+    loadingSize: {
+      type: [String, Number],
+      default: uni.$u.props.button.loadingSize
+    },
+    // 开放能力，具体请看uniapp稳定关于button组件部分说明
+    // https://uniapp.dcloud.io/component/button
+    openType: {
+      type: String,
+      default: uni.$u.props.button.openType
+    },
+    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
+    // 取值为submit（提交表单），reset（重置表单）
+    formType: {
+      type: String,
+      default: uni.$u.props.button.formType
+    },
+    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
+    // 只微信小程序、QQ小程序有效
+    appParameter: {
+      type: String,
+      default: uni.$u.props.button.appParameter
+    },
+    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
+    hoverStopPropagation: {
+      type: Boolean,
+      default: uni.$u.props.button.hoverStopPropagation
+    },
+    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
+    lang: {
+      type: String,
+      default: uni.$u.props.button.lang
+    },
+    // 会话来源，open-type="contact"时有效。只微信小程序有效
+    sessionFrom: {
+      type: String,
+      default: uni.$u.props.button.sessionFrom
+    },
+    // 会话内消息卡片标题，open-type="contact"时有效
+    // 默认当前标题，只微信小程序有效
+    sendMessageTitle: {
+      type: String,
+      default: uni.$u.props.button.sendMessageTitle
+    },
+    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
+    // 默认当前分享路径，只微信小程序有效
+    sendMessagePath: {
+      type: String,
+      default: uni.$u.props.button.sendMessagePath
+    },
+    // 会话内消息卡片图片，open-type="contact"时有效
+    // 默认当前页面截图，只微信小程序有效
+    sendMessageImg: {
+      type: String,
+      default: uni.$u.props.button.sendMessageImg
+    },
+    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
+    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
+    showMessageCard: {
+      type: Boolean,
+      default: uni.$u.props.button.showMessageCard
+    },
+    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
+    dataName: {
+      type: String,
+      default: uni.$u.props.button.dataName
+    },
+    // 节流，一定时间内只能触发一次
+    throttleTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.throttleTime
+    },
+    // 按住后多久出现点击态，单位毫秒
+    hoverStartTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.hoverStartTime
+    },
+    // 手指松开后点击态保留时间，单位毫秒
+    hoverStayTime: {
+      type: [String, Number],
+      default: uni.$u.props.button.hoverStayTime
+    },
+    // 按钮文字，之所以通过props传入，是因为slot传入的话
+    // nvue中无法控制文字的样式
+    text: {
+      type: [String, Number],
+      default: uni.$u.props.button.text
+    },
+    // 按钮图标
+    icon: {
+      type: String,
+      default: uni.$u.props.button.icon
+    },
+    // 按钮图标
+    iconColor: {
+      type: String,
+      default: uni.$u.props.button.icon
+    },
+    // 按钮颜色，支持传入linear-gradient渐变色
+    color: {
+      type: String,
+      default: uni.$u.props.button.color
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-icon/icons.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26785,10 +27250,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 205 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-icon/props.js ***!
-  \***********************************************************************/
+/* 221 */
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-icon/props.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -26892,229 +27357,24 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */
-/*!************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-input/props.js ***!
-  \************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 输入的值
-    value: {
-      type: [String, Number],
-      default: uni.$u.props.input.value
-    },
-    // 输入框类型
-    // number-数字输入键盘，app-vue下可以输入浮点数，app-nvue和小程序平台下只能输入整数
-    // idcard-身份证输入键盘，微信、支付宝、百度、QQ小程序
-    // digit-带小数点的数字键盘，App的nvue页面、微信、支付宝、百度、头条、QQ小程序
-    // text-文本输入键盘
-    type: {
-      type: String,
-      default: uni.$u.props.input.type
-    },
-    // 如果 textarea 是在一个 position:fixed 的区域，需要显示指定属性 fixed 为 true，
-    // 兼容性：微信小程序、百度小程序、字节跳动小程序、QQ小程序
-    fixed: {
-      type: Boolean,
-      default: uni.$u.props.input.fixed
-    },
-    // 是否禁用输入框
-    disabled: {
-      type: Boolean,
-      default: uni.$u.props.input.disabled
-    },
-    // 禁用状态时的背景色
-    disabledColor: {
-      type: String,
-      default: uni.$u.props.input.disabledColor
-    },
-    // 是否显示清除控件
-    clearable: {
-      type: Boolean,
-      default: uni.$u.props.input.clearable
-    },
-    // 是否密码类型
-    password: {
-      type: Boolean,
-      default: uni.$u.props.input.password
-    },
-    // 最大输入长度，设置为 -1 的时候不限制最大长度
-    maxlength: {
-      type: [String, Number],
-      default: uni.$u.props.input.maxlength
-    },
-    // 	输入框为空时的占位符
-    placeholder: {
-      type: String,
-      default: uni.$u.props.input.placeholder
-    },
-    // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
-    placeholderClass: {
-      type: String,
-      default: uni.$u.props.input.placeholderClass
-    },
-    // 指定placeholder的样式
-    placeholderStyle: {
-      type: [String, Object],
-      default: uni.$u.props.input.placeholderStyle
-    },
-    // 是否显示输入字数统计，只在 type ="text"或type ="textarea"时有效
-    showWordLimit: {
-      type: Boolean,
-      default: uni.$u.props.input.showWordLimit
-    },
-    // 设置右下角按钮的文字，有效值：send|search|next|go|done，兼容性详见uni-app文档
-    // https://uniapp.dcloud.io/component/input
-    // https://uniapp.dcloud.io/component/textarea
-    confirmType: {
-      type: String,
-      default: uni.$u.props.input.confirmType
-    },
-    // 点击键盘右下角按钮时是否保持键盘不收起，H5无效
-    confirmHold: {
-      type: Boolean,
-      default: uni.$u.props.input.confirmHold
-    },
-    // focus时，点击页面的时候不收起键盘，微信小程序有效
-    holdKeyboard: {
-      type: Boolean,
-      default: uni.$u.props.input.holdKeyboard
-    },
-    // 自动获取焦点
-    // 在 H5 平台能否聚焦以及软键盘是否跟随弹出，取决于当前浏览器本身的实现。nvue 页面不支持，需使用组件的 focus()、blur() 方法控制焦点
-    focus: {
-      type: Boolean,
-      default: uni.$u.props.input.focus
-    },
-    // 键盘收起时，是否自动失去焦点，目前仅App3.0.0+有效
-    autoBlur: {
-      type: Boolean,
-      default: uni.$u.props.input.autoBlur
-    },
-    // 是否去掉 iOS 下的默认内边距，仅微信小程序，且type=textarea时有效
-    disableDefaultPadding: {
-      type: Boolean,
-      default: uni.$u.props.input.disableDefaultPadding
-    },
-    // 指定focus时光标的位置
-    cursor: {
-      type: [String, Number],
-      default: uni.$u.props.input.cursor
-    },
-    // 输入框聚焦时底部与键盘的距离
-    cursorSpacing: {
-      type: [String, Number],
-      default: uni.$u.props.input.cursorSpacing
-    },
-    // 光标起始位置，自动聚集时有效，需与selection-end搭配使用
-    selectionStart: {
-      type: [String, Number],
-      default: uni.$u.props.input.selectionStart
-    },
-    // 光标结束位置，自动聚集时有效，需与selection-start搭配使用
-    selectionEnd: {
-      type: [String, Number],
-      default: uni.$u.props.input.selectionEnd
-    },
-    // 键盘弹起时，是否自动上推页面
-    adjustPosition: {
-      type: Boolean,
-      default: uni.$u.props.input.adjustPosition
-    },
-    // 输入框内容对齐方式，可选值为：left|center|right
-    inputAlign: {
-      type: String,
-      default: uni.$u.props.input.inputAlign
-    },
-    // 输入框字体的大小
-    fontSize: {
-      type: [String, Number],
-      default: uni.$u.props.input.fontSize
-    },
-    // 输入框字体颜色
-    color: {
-      type: String,
-      default: uni.$u.props.input.color
-    },
-    // 输入框前置图标
-    prefixIcon: {
-      type: String,
-      default: uni.$u.props.input.prefixIcon
-    },
-    // 前置图标样式，对象或字符串
-    prefixIconStyle: {
-      type: [String, Object],
-      default: uni.$u.props.input.prefixIconStyle
-    },
-    // 输入框后置图标
-    suffixIcon: {
-      type: String,
-      default: uni.$u.props.input.suffixIcon
-    },
-    // 后置图标样式，对象或字符串
-    suffixIconStyle: {
-      type: [String, Object],
-      default: uni.$u.props.input.suffixIconStyle
-    },
-    // 边框类型，surround-四周边框，bottom-底部边框，none-无边框
-    border: {
-      type: String,
-      default: uni.$u.props.input.border
-    },
-    // 是否只读，与disabled不同之处在于disabled会置灰组件，而readonly则不会
-    readonly: {
-      type: Boolean,
-      default: uni.$u.props.input.readonly
-    },
-    // 输入框形状，circle-圆形，square-方形
-    shape: {
-      type: String,
-      default: uni.$u.props.input.shape
-    },
-    // 用于处理或者过滤输入框内容的方法
-    formatter: {
-      type: [Function, null],
-      default: uni.$u.props.input.formatter
-    },
-    // 是否忽略组件内对文本合成系统事件的处理
-    ignoreCompositionEvent: {
-      type: Boolean,
-      default: true
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-switch/props.js ***!
-  \*************************************************************************/
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-switch/props.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27183,17 +27443,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-search/props.js ***!
-  \*************************************************************************/
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */
+/*!*****************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-search/props.js ***!
+  \*****************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27326,17 +27586,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-scroll-list/props.js ***!
-  \******************************************************************************/
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */,
+/* 249 */,
+/* 250 */,
+/* 251 */,
+/* 252 */
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-scroll-list/props.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27385,21 +27645,6 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
 /* 253 */,
 /* 254 */,
 /* 255 */,
@@ -27422,10 +27667,25 @@ exports.default = _default;
 /* 272 */,
 /* 273 */,
 /* 274 */,
-/* 275 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-text/props.js ***!
-  \***********************************************************************/
+/* 275 */,
+/* 276 */,
+/* 277 */,
+/* 278 */,
+/* 279 */,
+/* 280 */,
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */,
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-text/props.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27550,15 +27810,15 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 276 */,
-/* 277 */,
-/* 278 */,
-/* 279 */,
-/* 280 */,
-/* 281 */
-/*!**************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-overlay/props.js ***!
-  \**************************************************************************/
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */,
+/* 295 */,
+/* 296 */
+/*!******************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-overlay/props.js ***!
+  \******************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27597,17 +27857,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/props.js ***!
-  \*****************************************************************************/
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-transition/props.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27646,10 +27906,10 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 290 */
-/*!**********************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/transition.js ***!
-  \**********************************************************************************/
+/* 305 */
+/*!**************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-transition/transition.js ***!
+  \**************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27663,7 +27923,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 30));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 291));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 306));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -27755,10 +28015,10 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 291 */
-/*!************************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
-  \************************************************************************************/
+/* 306 */
+/*!****************************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
+  \****************************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27948,17 +28208,17 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */,
-/* 297 */,
-/* 298 */,
-/* 299 */
-/*!*****************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-status-bar/props.js ***!
-  \*****************************************************************************/
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */,
+/* 313 */,
+/* 314 */
+/*!*********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-status-bar/props.js ***!
+  \*********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -27981,17 +28241,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */,
-/* 305 */,
-/* 306 */,
-/* 307 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-safe-bottom/props.js ***!
-  \******************************************************************************/
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */,
+/* 321 */,
+/* 322 */
+/*!**********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-safe-bottom/props.js ***!
+  \**********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28008,17 +28268,17 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */,
-/* 315 */
-/*!*******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-loading-icon/props.js ***!
-  \*******************************************************************************/
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */
+/*!***********************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-loading-icon/props.js ***!
+  \***********************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28092,24 +28352,24 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */,
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-text/value.js ***!
-  \***********************************************************************/
+/* 331 */,
+/* 332 */,
+/* 333 */,
+/* 334 */,
+/* 335 */,
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */,
+/* 344 */,
+/* 345 */
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-text/value.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28214,89 +28474,17 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 331 */
-/*!*****************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/mixin/button.js ***!
-  \*****************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    lang: String,
-    sessionFrom: String,
-    sendMessageTitle: String,
-    sendMessagePath: String,
-    sendMessageImg: String,
-    showMessageCard: Boolean,
-    appParameter: String,
-    formType: String,
-    openType: String
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 332 */
-/*!*******************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/libs/mixin/openType.js ***!
-  \*******************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    openType: String
-  },
-  methods: {
-    onGetUserInfo: function onGetUserInfo(event) {
-      this.$emit('getuserinfo', event.detail);
-    },
-    onContact: function onContact(event) {
-      this.$emit('contact', event.detail);
-    },
-    onGetPhoneNumber: function onGetPhoneNumber(event) {
-      this.$emit('getphonenumber', event.detail);
-    },
-    onError: function onError(event) {
-      this.$emit('error', event.detail);
-    },
-    onLaunchApp: function onLaunchApp(event) {
-      this.$emit('launchapp', event.detail);
-    },
-    onOpenSetting: function onOpenSetting(event) {
-      this.$emit('opensetting', event.detail);
-    }
-  }
-};
-exports.default = _default;
-
-/***/ }),
-/* 333 */,
-/* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */
-/*!***********************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-link/props.js ***!
-  \***********************************************************************/
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */
+/*!***************************************************************!*\
+  !*** F:/WMS/node_modules/uview-ui/components/u-link/props.js ***!
+  \***************************************************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -28343,218 +28531,6 @@ var _default = {
     text: {
       type: String,
       default: uni.$u.props.link.text
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */,
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */
-/*!*************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-button/props.js ***!
-  \*************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-/*
- * @Author       : LQ
- * @Description  :
- * @version      : 1.0
- * @Date         : 2021-08-16 10:04:04
- * @LastAuthor   : LQ
- * @lastTime     : 2021-08-16 10:04:24
- * @FilePath     : /u-view2.0/uview-ui/components/u-button/props.js
- */
-var _default = {
-  props: {
-    // 是否细边框
-    hairline: {
-      type: Boolean,
-      default: uni.$u.props.button.hairline
-    },
-    // 按钮的预置样式，info，primary，error，warning，success
-    type: {
-      type: String,
-      default: uni.$u.props.button.type
-    },
-    // 按钮尺寸，large，normal，small，mini
-    size: {
-      type: String,
-      default: uni.$u.props.button.size
-    },
-    // 按钮形状，circle（两边为半圆），square（带圆角）
-    shape: {
-      type: String,
-      default: uni.$u.props.button.shape
-    },
-    // 按钮是否镂空
-    plain: {
-      type: Boolean,
-      default: uni.$u.props.button.plain
-    },
-    // 是否禁止状态
-    disabled: {
-      type: Boolean,
-      default: uni.$u.props.button.disabled
-    },
-    // 是否加载中
-    loading: {
-      type: Boolean,
-      default: uni.$u.props.button.loading
-    },
-    // 加载中提示文字
-    loadingText: {
-      type: [String, Number],
-      default: uni.$u.props.button.loadingText
-    },
-    // 加载状态图标类型
-    loadingMode: {
-      type: String,
-      default: uni.$u.props.button.loadingMode
-    },
-    // 加载图标大小
-    loadingSize: {
-      type: [String, Number],
-      default: uni.$u.props.button.loadingSize
-    },
-    // 开放能力，具体请看uniapp稳定关于button组件部分说明
-    // https://uniapp.dcloud.io/component/button
-    openType: {
-      type: String,
-      default: uni.$u.props.button.openType
-    },
-    // 用于 <form> 组件，点击分别会触发 <form> 组件的 submit/reset 事件
-    // 取值为submit（提交表单），reset（重置表单）
-    formType: {
-      type: String,
-      default: uni.$u.props.button.formType
-    },
-    // 打开 APP 时，向 APP 传递的参数，open-type=launchApp时有效
-    // 只微信小程序、QQ小程序有效
-    appParameter: {
-      type: String,
-      default: uni.$u.props.button.appParameter
-    },
-    // 指定是否阻止本节点的祖先节点出现点击态，微信小程序有效
-    hoverStopPropagation: {
-      type: Boolean,
-      default: uni.$u.props.button.hoverStopPropagation
-    },
-    // 指定返回用户信息的语言，zh_CN 简体中文，zh_TW 繁体中文，en 英文。只微信小程序有效
-    lang: {
-      type: String,
-      default: uni.$u.props.button.lang
-    },
-    // 会话来源，open-type="contact"时有效。只微信小程序有效
-    sessionFrom: {
-      type: String,
-      default: uni.$u.props.button.sessionFrom
-    },
-    // 会话内消息卡片标题，open-type="contact"时有效
-    // 默认当前标题，只微信小程序有效
-    sendMessageTitle: {
-      type: String,
-      default: uni.$u.props.button.sendMessageTitle
-    },
-    // 会话内消息卡片点击跳转小程序路径，open-type="contact"时有效
-    // 默认当前分享路径，只微信小程序有效
-    sendMessagePath: {
-      type: String,
-      default: uni.$u.props.button.sendMessagePath
-    },
-    // 会话内消息卡片图片，open-type="contact"时有效
-    // 默认当前页面截图，只微信小程序有效
-    sendMessageImg: {
-      type: String,
-      default: uni.$u.props.button.sendMessageImg
-    },
-    // 是否显示会话内消息卡片，设置此参数为 true，用户进入客服会话会在右下角显示"可能要发送的小程序"提示，
-    // 用户点击后可以快速发送小程序消息，open-type="contact"时有效
-    showMessageCard: {
-      type: Boolean,
-      default: uni.$u.props.button.showMessageCard
-    },
-    // 额外传参参数，用于小程序的data-xxx属性，通过target.dataset.name获取
-    dataName: {
-      type: String,
-      default: uni.$u.props.button.dataName
-    },
-    // 节流，一定时间内只能触发一次
-    throttleTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.throttleTime
-    },
-    // 按住后多久出现点击态，单位毫秒
-    hoverStartTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.hoverStartTime
-    },
-    // 手指松开后点击态保留时间，单位毫秒
-    hoverStayTime: {
-      type: [String, Number],
-      default: uni.$u.props.button.hoverStayTime
-    },
-    // 按钮文字，之所以通过props传入，是因为slot传入的话
-    // nvue中无法控制文字的样式
-    text: {
-      type: [String, Number],
-      default: uni.$u.props.button.text
-    },
-    // 按钮图标
-    icon: {
-      type: String,
-      default: uni.$u.props.button.icon
-    },
-    // 按钮图标
-    iconColor: {
-      type: String,
-      default: uni.$u.props.button.icon
-    },
-    // 按钮颜色，支持传入linear-gradient渐变色
-    color: {
-      type: String,
-      default: uni.$u.props.button.color
     }
   }
 };

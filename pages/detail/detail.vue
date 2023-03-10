@@ -21,22 +21,23 @@
 				<span>姓名：</span>
 				<view class="text">
 					<u-input v-model="name" type="text" border="bottom" clearable placeholder="请输入姓名" maxlength="4"
-						:disabled="input" />
+						:disabled="input" @blur="focus=true" @keydown.enter="focus=true" />
 				</view>
 			</view>
 			<view class="flex mgt12 pd3">
 				<span>手机号：</span>
 				<view class="text">
-					<u-input v-model="phone" type="number" border="bottom" clearable placeholder="请输入手机号"
-						:disabled="input" maxlength="11" />
+					<u-input ref="phone" v-model="phone" type="number" border="bottom" clearable placeholder="请输入手机号"
+						:disabled="input" maxlength="11" :focus="focus" @input="phone.length==11?check():false"
+						@blur="check()" @keyup="check()" />
 				</view>
 			</view>
 			<view class="flex mgt12 pd3">
 				<span>状态：</span>
 				<view class="flex">
-					<view class="mgr16">{{statusContent==false?"未借出":"已借出"}}</view>
+					<view class="mgr16">{{statusContent?"已借出":"未借出"}}</view>
 					<u-switch v-model="value" activeColor="#5ac725" inactiveColor="#f56c6c" @change="change"
-						:disabled="status"></u-switch>
+						:disabled="status" v-if="show"></u-switch>
 				</view>
 			</view>
 		</view>
@@ -75,7 +76,8 @@
 	import {
 		onLoad,
 		change,
-		search
+		search,
+		check
 	} from '../../static/JS/custom/detail/detail.js'
 	export default {
 		data() {
@@ -90,13 +92,16 @@
 				phone: null,
 				input: null,
 				serachv: null,
-				recordArray:[]
+				recordArray: [],
+				show: false,
+				focus: false
 			}
 		},
 		onLoad,
 		methods: {
 			change,
 			search,
+			check
 		}
 	}
 </script>
