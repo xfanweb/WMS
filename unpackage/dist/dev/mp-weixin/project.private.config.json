@@ -5,5 +5,18 @@
     "compileHotReLoad": true,
     "urlCheck": true,
     "bigPackageSizeSupport": true
+  },
+  "condition": {
+    "miniprogram": {
+      "list": [
+        {
+          "name": "详情页",
+          "pathName": "pages/detail/detail",
+          "query": "id=2",
+          "launchMode": "default",
+          "scene": null
+        }
+      ]
+    }
   }
 }

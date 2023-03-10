@@ -303,6 +303,15 @@ page {
 	bottom: 30rpx;
 	justify-content: center;
 }
+.btn {
+	margin: 30rpx auto !important;
+}
+.poptitle {
+	font-size: 36rpx !important;
+}
+.popinput {
+	margin: 30rpx auto !important;
+}
 
 /* 自定义样式 */
 .el-card {
@@ -330,7 +339,10 @@ page {
 	margin-left: 8rpx !important;
 }
 .pd3 {
-	padding: 3rpx;
+	padding: 3rpx !important;
+}
+.pd5 {
+	padding: 5rpx !important;
 }
 .mgt32 {
 	margin-top: 32rpx !important;
@@ -338,8 +350,20 @@ page {
 .mgb32 {
 	margin-bottom: 32rpx !important;
 }
-.width50{
+.pdb32 {
+	padding-bottom: 32rpx !important;
+}
+.width50 {
 	width: 50% !important;
+}
+.width75 {
+	width: 75% !important;
+}
+.width80 {
+	width: 80% !important;
+}
+.mgauto {
+	margin: 0 auto !important;
 }
 
 /* UI 样式 */

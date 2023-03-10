@@ -4,7 +4,7 @@
 		onLaunch() {},
 		onHide() {}
 	}
-	//操作数据库对象
+	// 操作数据库对象
 	export function objValue(tablename, api, id, name, phone, time, status) {
 		// objValue(tablename, api, id, name, phone, time, status)
 		// objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态)没有填null
@@ -19,9 +19,9 @@
 		}
 		return object
 	}
-	//操作数据库函数
+	// 操作数据库函数
 	export function execSql(name, data, callback) {
-		//execSql(云函数名,data对象,回调函数)
+		// execSql(云函数名,data对象,回调函数)
 		uniCloud.callFunction({
 			name: name,
 			data: data
@@ -29,7 +29,7 @@
 			callback(res);
 		})
 	}
-	//返回年月日时分秒
+	// 返回年月日时分秒
 	export function time() {
 		const date = new Date();
 		const year = date.getFullYear();
@@ -46,9 +46,9 @@
 		let time = year + "年" + month + "月" + day + "日" + h + ":" + m + ":" + s
 		return time
 	}
-	//复制到剪贴板
+	// 复制到剪贴板
 	export function setClipboard(data) {
-		//data  传入需要复制的内容
+		// data 传入需要复制的内容
 		uni.setClipboardData({
 			data: data,
 			success: function() {
@@ -59,17 +59,32 @@
 			}
 		});
 	}
-	//自定义跳转
+	// 自定义跳转
 	export function router(url) {
 		uni.navigateTo({
 			url: '/pages/' + url + '/' + url
 		})
 	}
+	// 检查登录状态
+	export function checkLoginStatus() {
+		if (uni.getStorageSync('login') !== true) {
+			uni.showToast({
+				title: '您还未登录',
+				icon: 'error'
+			})
+			setTimeout(function() {
+				uni.redirectTo({
+					url: '/pages/index/index'
+				})
+			}, 1800)
+
+		}
+	}
 </script>
 
 <style lang="scss">
 	/* 注意要写在第一行，同时给style标签加入lang="scss"属性 */
-	@import "uview-ui/index.scss"; //引入 uview
+	@import "uview-ui/index.scss"; // 引入 uview
 
 	page {
 		height: 100%;

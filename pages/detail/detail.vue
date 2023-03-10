@@ -34,7 +34,7 @@
 			<view class="flex mgt12 pd3">
 				<span>状态：</span>
 				<view class="flex">
-					<view class="mgr16">{{StatusContent==false?"未借出":"已借出"}}</view>
+					<view class="mgr16">{{statusContent==false?"未借出":"已借出"}}</view>
 					<u-switch v-model="value" activeColor="#5ac725" inactiveColor="#f56c6c" @change="change"
 						:disabled="status"></u-switch>
 				</view>
@@ -44,7 +44,7 @@
 			<view class="flex search mgb32">
 				<view class="width50">
 					<u-search placeholder="请输入搜索内容" v-model="serachv" shape="square" :showAction="false" maxlength="11"
-						@change="search(serachv,recordarr)"></u-search>
+						@change="search(serachv,recordArray)"></u-search>
 				</view>
 			</view>
 			<u-scroll-list :indicator="false">
@@ -85,12 +85,12 @@
 				value: null,
 				status: false,
 				id: null,
-				StatusContent: null,
+				statusContent: null,
 				name: null,
 				phone: null,
 				input: null,
 				serachv: null,
-				recordarr:[]
+				recordArray:[]
 			}
 		},
 		onLoad,

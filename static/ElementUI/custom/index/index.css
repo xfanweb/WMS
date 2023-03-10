@@ -49,3 +49,15 @@
 	bottom: 30rpx;
 	justify-content: center;
 }
+
+.btn {
+	margin: 30rpx auto !important;
+}
+
+.poptitle {
+	font-size: 36rpx !important;
+}
+
+.popinput {
+	margin: 30rpx auto !important;
+}

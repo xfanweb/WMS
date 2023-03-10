@@ -4,14 +4,20 @@ let db = uniCloud.database({
 exports.main = async (event, context) => {
 	const tablename = event.tablename
 	switch (event.api) {
-		case 'querystock':
+		case 'checkPassword':
+			return event.password=="123456"
+		case 'queryStock':
 			return await db.collection(tablename).where({
 				id: event.id
 			}).get()
-		case 'updatestock':
-			if(!event.status){
-				event.name=null;
-				event.phone=null
+		case 'queryRecord':
+			return await db.collection(tablename).where({
+				id: event.id
+			}).get()
+		case 'updateStock':
+			if (!event.status) {
+				event.name = null;
+				event.phone = null
 			}
 			return await db.collection(tablename).where({
 				id: event.id
@@ -20,11 +26,8 @@ exports.main = async (event, context) => {
 				phone: event.phone,
 				status: event.status
 			})
-		case 'queryrecord':
-			return await db.collection(tablename).where({
-				id: event.id
-			}).get()
-		case 'addrecord':
+
+		case 'addRecord':
 			return await db.collection(tablename).add({
 				id: event.id,
 				name: event.name,
