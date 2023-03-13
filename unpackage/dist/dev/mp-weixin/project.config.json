@@ -1,46 +1,47 @@
 {
-    "description": "项目配置文件。",
-    "packOptions": {
-        "ignore": [],
-        "include": []
+  "description": "项目配置文件。",
+  "packOptions": {
+    "ignore": [],
+    "include": []
+  },
+  "setting": {
+    "urlCheck": false,
+    "es6": true,
+    "postcss": false,
+    "minified": true,
+    "newFeature": true,
+    "bigPackageSizeSupport": true,
+    "babelSetting": {
+      "ignore": [],
+      "disablePlugins": [],
+      "outputPath": ""
     },
-    "setting": {
-        "urlCheck": false,
-        "es6": true,
-        "postcss": false,
-        "minified": true,
-        "newFeature": true,
-        "bigPackageSizeSupport": true,
-        "babelSetting": {
-            "ignore": [],
-            "disablePlugins": [],
-            "outputPath": ""
-        }
+    "ignoreUploadUnusedFiles": true
+  },
+  "compileType": "miniprogram",
+  "libVersion": "2.30.2",
+  "appid": "wxaca4263698f3522b",
+  "projectname": "WMS",
+  "condition": {
+    "search": {
+      "current": -1,
+      "list": []
     },
-    "compileType": "miniprogram",
-    "libVersion": "2.30.2",
-    "appid": "wxaca4263698f3522b",
-    "projectname": "WMS",
-    "condition": {
-        "search": {
-            "current": -1,
-            "list": []
-        },
-        "conversation": {
-            "current": -1,
-            "list": []
-        },
-        "game": {
-            "current": -1,
-            "list": []
-        },
-        "miniprogram": {
-            "current": -1,
-            "list": []
-        }
+    "conversation": {
+      "current": -1,
+      "list": []
     },
-    "editorSetting": {
-        "tabIndent": "insertSpaces",
-        "tabSize": 4
+    "game": {
+      "current": -1,
+      "list": []
+    },
+    "miniprogram": {
+      "current": -1,
+      "list": []
     }
+  },
+  "editorSetting": {
+    "tabIndent": "insertSpaces",
+    "tabSize": 2
+  }
 }

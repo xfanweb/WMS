@@ -60,7 +60,7 @@
 					<!-- 表格数据行 -->
 					<uni-tr v-for="(item, index) in record" :key="index">
 						<uni-td>{{item.name}}</uni-td>
-						<uni-td @tap="setclipboard(item.phone)">{{item.phone}}</uni-td>
+						<uni-td @tap="setClipboard(item.phone)">{{item.phone}}</uni-td>
 						<uni-td>{{item.time}}</uni-td>
 						<uni-td>
 							<u--text :type='item.status?"success":"error"' :text='item.status?"借出":"归还"'></u--text>
@@ -78,7 +78,10 @@
 		change,
 		search,
 		check
-	} from '../../static/JS/custom/detail/detail.js'
+	} from '../../static/JS/custom/detail/detail.js';
+	import {
+		setClipboard
+	} from '../../App.vue';
 	export default {
 		data() {
 			return {
@@ -101,7 +104,8 @@
 		methods: {
 			change,
 			search,
-			check
+			check,
+			setClipboard
 		}
 	}
 </script>
