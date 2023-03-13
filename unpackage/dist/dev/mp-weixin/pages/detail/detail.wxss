@@ -329,6 +329,10 @@ page {
 .mgauto {
 	margin: 0 auto !important;
 }
+.uni-table-th {
+	font-size: 15px !important;
+	color: black !important;
+}
 
 /* UI 样式 */
 

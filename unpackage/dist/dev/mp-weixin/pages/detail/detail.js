@@ -110,23 +110,20 @@ try {
     uSearch: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-search/u-search */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-search/u-search")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-search/u-search.vue */ 239))
     },
-    uScrollList: function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u-scroll-list/u-scroll-list */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-scroll-list/u-scroll-list")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-scroll-list/u-scroll-list.vue */ 247))
-    },
     uniTable: function () {
-      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table */ "node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-table/uni-table.vue */ 257))
+      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table */ "node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-table/uni-table.vue */ 247))
     },
     uniTr: function () {
-      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr */ "node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-tr/uni-tr.vue */ 264))
+      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr */ "node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-tr/uni-tr.vue */ 254))
     },
     uniTh: function () {
-      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th */ "node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-th/uni-th.vue */ 271))
+      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th */ "node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-th/uni-th.vue */ 261))
     },
     uniTd: function () {
-      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td */ "node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-td/uni-td.vue */ 278))
+      return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td */ "node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-td/uni-td.vue */ 268))
     },
     "u-Text": function () {
-      return Promise.all(/*! import() | node-modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u--text/u--text.vue */ 285))
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u--text/u--text */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u--text/u--text")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u--text/u--text.vue */ 275))
     },
   }
 } catch (e) {
@@ -165,6 +162,10 @@ var render = function () {
     }
     _vm.e2 = function ($event) {
       _vm.phone.length == 11 ? _vm.check() : false
+    }
+    _vm.e3 = function ($event) {
+      _vm.record.reverse()
+      _vm.on = !_vm.on
     }
   }
 }
@@ -282,6 +283,10 @@ var _App = __webpack_require__(/*! ../../App.vue */ 39);
 //
 //
 //
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
@@ -297,7 +302,10 @@ var _default = {
       serachv: null,
       recordArray: [],
       show: false,
-      focus: false
+      focus: false,
+      offset: 0,
+      limit: 6,
+      on: true
     };
   },
   onLoad: _detail.onLoad,
@@ -305,7 +313,8 @@ var _default = {
     change: _detail.change,
     search: _detail.search,
     check: _detail.check,
-    setClipboard: _App.setClipboard
+    setClipboard: _App.setClipboard,
+    queryRecord: _detail.queryRecord
   }
 };
 exports.default = _default;
@@ -423,9 +432,9 @@ var _default = {
   onHide: function onHide() {}
 }; // 操作数据库对象
 exports.default = _default;
-function objValue(tablename, api, id, name, phone, time, status) {
-  // objValue(tablename, api, id, name, phone, time, status)
-  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态)没有填null
+function objValue(tablename, api, id, name, phone, time, status, offset, limit) {
+  // objValue(tablename, api, id, name, phone, time, status, offset, limit)
+  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量)
   var object = {
     tablename: tablename,
     api: api,
@@ -433,7 +442,9 @@ function objValue(tablename, api, id, name, phone, time, status) {
     name: name,
     phone: phone,
     time: time,
-    status: status
+    status: status,
+    offset: offset,
+    limit: limit
   };
   return object;
 }

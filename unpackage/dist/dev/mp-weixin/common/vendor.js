@@ -1543,7 +1543,7 @@ function initData(vueOptions, context) {
     try {
       data = data.call(context); // 支持 Vue.prototype 上挂的数据
     } catch (e) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.warn('根据 Vue 的 data 函数初始化小程序 data 失败，请尽量确保 data 函数中不访问 vm 对象，否则可能影响首次数据渲染速度。', data);
       }
     }
@@ -8897,7 +8897,7 @@ function type(obj) {
 
 function flushCallbacks$1(vm) {
     if (vm.__next_tick_callbacks && vm.__next_tick_callbacks.length) {
-        if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+        if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:flushCallbacks[' + vm.__next_tick_callbacks.length + ']');
@@ -8918,14 +8918,14 @@ function nextTick$1(vm, cb) {
     //1.nextTick 之前 已 setData 且 setData 还未回调完成
     //2.nextTick 之前存在 render watcher
     if (!vm.__next_tick_pending && !hasRenderWatcher(vm)) {
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + vm._uid +
                 ']:nextVueTick');
         }
         return nextTick(cb, vm)
     }else{
-        if(Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG){
+        if(Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG){
             var mpInstance$1 = vm.$scope;
             console.log('[' + (+new Date) + '][' + (mpInstance$1.is || mpInstance$1.route) + '][' + vm._uid +
                 ']:nextMPTick');
@@ -9021,7 +9021,7 @@ var patch = function(oldVnode, vnode) {
     });
     var diffData = this.$shouldDiffData === false ? data : diff(data, mpData);
     if (Object.keys(diffData).length) {
-      if (Object({"NODE_ENV":"development","VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","BASE_URL":"/"}).VUE_APP_DEBUG) {
+      if (Object({"VUE_APP_DARK_MODE":"false","VUE_APP_NAME":"WMS","VUE_APP_PLATFORM":"mp-weixin","NODE_ENV":"development","BASE_URL":"/"}).VUE_APP_DEBUG) {
         console.log('[' + (+new Date) + '][' + (mpInstance.is || mpInstance.route) + '][' + this._uid +
           ']差量更新',
           JSON.stringify(diffData));
@@ -9891,9 +9891,9 @@ var y = "development" === "development",
         "127.0.0.1",
         "192.168.80.91"
     ],
-    "debugPort": 9000,
+    "debugPort": 9001,
     "initialLaunchType": "remote",
-    "servePort": 7000,
+    "servePort": 7001,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.7.3.20230223/plugins/unicloud/**/*.js"
@@ -26358,6 +26358,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.change = change;
 exports.check = check;
 exports.onLoad = onLoad;
+exports.queryRecord = queryRecord;
 exports.search = search;
 var _App = __webpack_require__(/*! ../../../../App.vue */ 39);
 // 监听页面加载
@@ -26381,10 +26382,21 @@ function onLoad(options) {
     }
   });
 
-  (0, _App.execSql)('wms', (0, _App.objValue)('record', 'queryRecord', that.id, null, null, null, null), function (res) {
-    that.record = res.result.data.reverse(); // 按最新时间排序 
+  (0, _App.execSql)('wms', (0, _App.objValue)('record', 'queryRecord', that.id, null, null, null, null, that.offset, that.limit), function (res) {
+    that.record = res.result.data;
+    that.recordArray = that.record; // 存进recordArray数组 模糊搜索所需参数
+    that.offset += that.limit; // 更新offset变量的值
+  });
+}
+// 查询记录表
+function queryRecord() {
+  var that = this;
+  (0, _App.execSql)('wms', (0, _App.objValue)('record', 'queryRecord', that.id, null, null, null, null, that.offset, that.limit), function (res) {
+    that.record = that.record.concat(res.result.data); // 拼接数组
     that.recordArray = that.record; // 存进recordArray数组 模糊搜索所需参数
   });
+
+  that.offset += that.limit; // 更新offset变量的值
 }
 // Switch状态发生改变校验完毕执行数据库操作
 function change() {
@@ -27616,58 +27628,7 @@ exports.default = _default;
 /* 249 */,
 /* 250 */,
 /* 251 */,
-/* 252 */
-/*!******************************************************************************!*\
-  !*** E:/project/WMS/node_modules/uview-ui/components/u-scroll-list/props.js ***!
-  \******************************************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-/* WEBPACK VAR INJECTION */(function(uni) {
-
-Object.defineProperty(exports, "__esModule", {
-  value: true
-});
-exports.default = void 0;
-var _default = {
-  props: {
-    // 指示器的整体宽度
-    indicatorWidth: {
-      type: [String, Number],
-      default: uni.$u.props.scrollList.indicatorWidth
-    },
-    // 滑块的宽度
-    indicatorBarWidth: {
-      type: [String, Number],
-      default: uni.$u.props.scrollList.indicatorBarWidth
-    },
-    // 是否显示面板指示器
-    indicator: {
-      type: Boolean,
-      default: uni.$u.props.scrollList.indicator
-    },
-    // 指示器非激活颜色
-    indicatorColor: {
-      type: String,
-      default: uni.$u.props.scrollList.indicatorColor
-    },
-    // 指示器的激活颜色
-    indicatorActiveColor: {
-      type: String,
-      default: uni.$u.props.scrollList.indicatorActiveColor
-    },
-    // 指示器样式，可通过bottom，left，right进行定位
-    indicatorStyle: {
-      type: [String, Object],
-      default: uni.$u.props.scrollList.indicatorStyle
-    }
-  }
-};
-exports.default = _default;
-/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
-
-/***/ }),
+/* 252 */,
 /* 253 */,
 /* 254 */,
 /* 255 */,
@@ -27695,17 +27656,7 @@ exports.default = _default;
 /* 277 */,
 /* 278 */,
 /* 279 */,
-/* 280 */,
-/* 281 */,
-/* 282 */,
-/* 283 */,
-/* 284 */,
-/* 285 */,
-/* 286 */,
-/* 287 */,
-/* 288 */,
-/* 289 */,
-/* 290 */
+/* 280 */
 /*!***********************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-text/props.js ***!
   \***********************************************************************/
@@ -27833,12 +27784,12 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 291 */,
-/* 292 */,
-/* 293 */,
-/* 294 */,
-/* 295 */,
-/* 296 */
+/* 281 */,
+/* 282 */,
+/* 283 */,
+/* 284 */,
+/* 285 */,
+/* 286 */
 /*!**************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-overlay/props.js ***!
   \**************************************************************************/
@@ -27880,14 +27831,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 297 */,
-/* 298 */,
-/* 299 */,
-/* 300 */,
-/* 301 */,
-/* 302 */,
-/* 303 */,
-/* 304 */
+/* 287 */,
+/* 288 */,
+/* 289 */,
+/* 290 */,
+/* 291 */,
+/* 292 */,
+/* 293 */,
+/* 294 */
 /*!*****************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/props.js ***!
   \*****************************************************************************/
@@ -27929,7 +27880,7 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 305 */
+/* 295 */
 /*!**********************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/transition.js ***!
   \**********************************************************************************/
@@ -27946,7 +27897,7 @@ Object.defineProperty(exports, "__esModule", {
 exports.default = void 0;
 var _regenerator = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/regenerator */ 28));
 var _asyncToGenerator2 = _interopRequireDefault(__webpack_require__(/*! @babel/runtime/helpers/asyncToGenerator */ 30));
-var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 306));
+var _nvueAniMap = _interopRequireDefault(__webpack_require__(/*! ./nvue.ani-map.js */ 296));
 // 定义一个一定时间后自动成功的promise，让调用nextTick方法处，进入下一个then方法
 var nextTick = function nextTick() {
   return new Promise(function (resolve) {
@@ -28038,7 +27989,7 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 306 */
+/* 296 */
 /*!************************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-transition/nvue.ani-map.js ***!
   \************************************************************************************/
@@ -28231,14 +28182,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 307 */,
-/* 308 */,
-/* 309 */,
-/* 310 */,
-/* 311 */,
-/* 312 */,
-/* 313 */,
-/* 314 */
+/* 297 */,
+/* 298 */,
+/* 299 */,
+/* 300 */,
+/* 301 */,
+/* 302 */,
+/* 303 */,
+/* 304 */
 /*!*****************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-status-bar/props.js ***!
   \*****************************************************************************/
@@ -28264,14 +28215,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 315 */,
-/* 316 */,
-/* 317 */,
-/* 318 */,
-/* 319 */,
-/* 320 */,
-/* 321 */,
-/* 322 */
+/* 305 */,
+/* 306 */,
+/* 307 */,
+/* 308 */,
+/* 309 */,
+/* 310 */,
+/* 311 */,
+/* 312 */
 /*!******************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-safe-bottom/props.js ***!
   \******************************************************************************/
@@ -28291,14 +28242,14 @@ var _default = {
 exports.default = _default;
 
 /***/ }),
-/* 323 */,
-/* 324 */,
-/* 325 */,
-/* 326 */,
-/* 327 */,
-/* 328 */,
-/* 329 */,
-/* 330 */
+/* 313 */,
+/* 314 */,
+/* 315 */,
+/* 316 */,
+/* 317 */,
+/* 318 */,
+/* 319 */,
+/* 320 */
 /*!*******************************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-loading-icon/props.js ***!
   \*******************************************************************************/
@@ -28375,21 +28326,21 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
+/* 321 */,
+/* 322 */,
+/* 323 */,
+/* 324 */,
+/* 325 */,
+/* 326 */,
+/* 327 */,
+/* 328 */,
+/* 329 */,
+/* 330 */,
 /* 331 */,
 /* 332 */,
 /* 333 */,
 /* 334 */,
-/* 335 */,
-/* 336 */,
-/* 337 */,
-/* 338 */,
-/* 339 */,
-/* 340 */,
-/* 341 */,
-/* 342 */,
-/* 343 */,
-/* 344 */,
-/* 345 */
+/* 335 */
 /*!***********************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-text/value.js ***!
   \***********************************************************************/
@@ -28497,14 +28448,14 @@ exports.default = _default;
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
 
 /***/ }),
-/* 346 */,
-/* 347 */,
-/* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */
+/* 336 */,
+/* 337 */,
+/* 338 */,
+/* 339 */,
+/* 340 */,
+/* 341 */,
+/* 342 */,
+/* 343 */
 /*!***********************************************************************!*\
   !*** E:/project/WMS/node_modules/uview-ui/components/u-link/props.js ***!
   \***********************************************************************/

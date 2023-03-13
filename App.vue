@@ -5,9 +5,9 @@
 		onHide() {}
 	}
 	// 操作数据库对象
-	export function objValue(tablename, api, id, name, phone, time, status) {
-		// objValue(tablename, api, id, name, phone, time, status)
-		// objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态)没有填null
+	export function objValue(tablename, api, id, name, phone, time, status, offset, limit) {
+		// objValue(tablename, api, id, name, phone, time, status, offset, limit)
+		// objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量)
 		const object = {
 			tablename: tablename,
 			api: api,
@@ -15,7 +15,9 @@
 			name: name,
 			phone: phone,
 			time: time,
-			status: status
+			status: status,
+			offset: offset,
+			limit: limit
 		}
 		return object
 	}
@@ -80,6 +82,7 @@
 
 		}
 	}
+
 </script>
 
 <style lang="scss">

@@ -24,10 +24,22 @@ export function onLoad(options) {
 			that.input = false // 启用输入框
 		}
 	})
-	execSql('wms', objValue('record', 'queryRecord', that.id, null, null, null, null), (res) => {
-		that.record = res.result.data.reverse() // 按最新时间排序 
+	execSql('wms', objValue('record', 'queryRecord', that.id, null, null, null, null, that.offset, that.limit), (
+	 	res) => {
+	 	that.record = res.result.data
+	 	that.recordArray = that.record // 存进recordArray数组 模糊搜索所需参数
+		that.offset += that.limit; // 更新offset变量的值
+	 })
+}
+// 查询记录表
+export function queryRecord() {
+	let that = this
+	execSql('wms', objValue('record', 'queryRecord', that.id, null, null, null, null, that.offset, that.limit), (
+		res) => {
+		that.record = that.record.concat(res.result.data) // 拼接数组
 		that.recordArray = that.record // 存进recordArray数组 模糊搜索所需参数
 	})
+	that.offset += that.limit; // 更新offset变量的值
 }
 // Switch状态发生改变校验完毕执行数据库操作
 export function change() {
@@ -44,7 +56,7 @@ export function change() {
 			.value), (res) => {
 			execSql('wms', objValue('stock', 'updateStock', that.id, that.name.trim(), that.phone.trim(), null,
 				that.value), (res) => {
-				that.input=false // 解除输入框禁用
+				that.input = false // 解除输入框禁用
 				const title = that.value == false ? "归还成功" : "借出成功" // 定义弹窗文字
 				that.name = "" // 姓名清空
 				that.phone = "" // 手机号清空

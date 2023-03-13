@@ -48,26 +48,30 @@
 						@change="search(serachv,recordArray)"></u-search>
 				</view>
 			</view>
-			<u-scroll-list :indicator="false">
+			<scroll-view scroll-y @scrolltolower="queryRecord" style="height: 16.95rem">
 				<uni-table>
 					<!-- 表头行 -->
 					<uni-tr>
-						<uni-th>姓名</uni-th>
-						<uni-th>手机号</uni-th>
-						<uni-th>时间</uni-th>
+						<uni-th width="80px">姓名</uni-th>
+						<uni-th width="100px">手机号</uni-th>
 						<uni-th>状态</uni-th>
+						<!-- 开关 自己品 -->
+						<uni-th @tap="record.reverse();on=!on">时间 &nbsp;{{on?"△":"▽"}}</uni-th>
 					</uni-tr>
 					<!-- 表格数据行 -->
 					<uni-tr v-for="(item, index) in record" :key="index">
 						<uni-td>{{item.name}}</uni-td>
 						<uni-td @tap="setClipboard(item.phone)">{{item.phone}}</uni-td>
-						<uni-td>{{item.time}}</uni-td>
 						<uni-td>
 							<u--text :type='item.status?"success":"error"' :text='item.status?"借出":"归还"'></u--text>
 						</uni-td>
+						<uni-td>{{item.time}}</uni-td>
 					</uni-tr>
+
+
 				</uni-table>
-			</u-scroll-list>
+			</scroll-view>
+
 		</view>
 	</view>
 </template>
@@ -77,7 +81,8 @@
 		onLoad,
 		change,
 		search,
-		check
+		check,
+		queryRecord
 	} from '../../static/JS/custom/detail/detail.js';
 	import {
 		setClipboard
@@ -97,7 +102,10 @@
 				serachv: null,
 				recordArray: [],
 				show: false,
-				focus: false
+				focus: false,
+				offset: 0,
+				limit: 6,
+				on:true
 			}
 		},
 		onLoad,
@@ -105,7 +113,8 @@
 			change,
 			search,
 			check,
-			setClipboard
+			setClipboard,
+			queryRecord
 		}
 	}
 </script>
