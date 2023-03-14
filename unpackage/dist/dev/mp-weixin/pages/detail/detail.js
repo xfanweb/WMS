@@ -104,6 +104,9 @@ try {
     uInput: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-input/u-input */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-input/u-input")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-input/u-input.vue */ 224))
     },
+    "u-Textarea": function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u--textarea/u--textarea */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u--textarea/u--textarea")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u--textarea/u--textarea.vue */ 367))
+    },
     uSwitch: function () {
       return Promise.all(/*! import() | node-modules/uview-ui/components/u-switch/u-switch */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-switch/u-switch")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-switch/u-switch.vue */ 231))
     },
@@ -118,6 +121,9 @@ try {
     },
     uniTh: function () {
       return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th */ "node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-th/uni-th.vue */ 261))
+    },
+    uModal: function () {
+      return Promise.all(/*! import() | node-modules/uview-ui/components/u-modal/u-modal */[__webpack_require__.e("common/vendor"), __webpack_require__.e("node-modules/uview-ui/components/u-modal/u-modal")]).then(__webpack_require__.bind(null, /*! uview-ui/components/u-modal/u-modal.vue */ 381))
     },
     uniTd: function () {
       return __webpack_require__.e(/*! import() | node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td */ "node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td").then(__webpack_require__.bind(null, /*! @dcloudio/uni-ui/lib/uni-td/uni-td.vue */ 268))
@@ -166,6 +172,17 @@ var render = function () {
     _vm.e3 = function ($event) {
       _vm.record.reverse()
       _vm.on = !_vm.on
+    }
+    _vm.e4 = function ($event) {
+      _vm.modal = false
+    }
+    _vm.e5 = function ($event, item) {
+      var _temp = arguments[arguments.length - 1].currentTarget.dataset,
+        _temp2 = _temp.eventParams || _temp["event-params"],
+        item = _temp2.item
+      var _temp, _temp2
+      _vm.modal = true
+      _vm.modaltext = item.remarks
     }
   }
 }
@@ -287,12 +304,23 @@ var _App = __webpack_require__(/*! ../../App.vue */ 39);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 var _default = {
   data: function data() {
     return {
       stock: [],
       record: null,
-      value: null,
+      value: false,
       status: false,
       id: null,
       statusContent: null,
@@ -305,7 +333,11 @@ var _default = {
       focus: false,
       offset: 0,
       limit: 6,
-      on: true
+      on: true,
+      remarks: null,
+      i: 0,
+      modal: false,
+      modaltext: null
     };
   },
   onLoad: _detail.onLoad,
@@ -432,9 +464,9 @@ var _default = {
   onHide: function onHide() {}
 }; // 操作数据库对象
 exports.default = _default;
-function objValue(tablename, api, id, name, phone, time, status, offset, limit) {
-  // objValue(tablename, api, id, name, phone, time, status, offset, limit)
-  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量)
+function objValue(tablename, api, id, name, phone, time, status, offset, limit, remarks) {
+  // objValue(tablename, api, id, name, phone, time, status, offset, limit, remarks)
+  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量,备注)
   var object = {
     tablename: tablename,
     api: api,
@@ -444,7 +476,8 @@ function objValue(tablename, api, id, name, phone, time, status, offset, limit) 
     time: time,
     status: status,
     offset: offset,
-    limit: limit
+    limit: limit,
+    remarks: remarks
   };
   return object;
 }

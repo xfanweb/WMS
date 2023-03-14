@@ -19,3 +19,13 @@ span {
 .search {
 	justify-content: flex-end;
 }
+
+.u-textarea {
+	width: 450rpx !important;
+	height: 100rpx !important;
+	padding: 0 !important;
+	padding-left: 5rpx !important;
+}
+.u-textarea__field{
+	height: 100rpx !important;
+}

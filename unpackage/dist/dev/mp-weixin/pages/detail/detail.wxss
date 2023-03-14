@@ -276,6 +276,15 @@ page {
 .search {
 	justify-content: flex-end;
 }
+.u-textarea {
+	width: 450rpx !important;
+	height: 100rpx !important;
+	padding: 0 !important;
+	padding-left: 5rpx !important;
+}
+.u-textarea__field{
+	height: 100rpx !important;
+}
 
 /* 自定义样式 */
 .el-card {
@@ -332,6 +341,18 @@ page {
 .uni-table-th {
 	font-size: 15px !important;
 	color: black !important;
+}
+.mgb6 {
+	margin-bottom: 6rpx !important;
+}
+.mgt18 {
+	margin-top: 18rpx !important;
+}
+.pdt6 {
+	padding-top: 6rpx !important;
+}
+.pdl5 {
+	padding-left: 5rpx !important;
 }
 
 /* UI 样式 */

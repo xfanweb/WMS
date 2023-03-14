@@ -32,7 +32,15 @@
 						@blur="check()" @keyup="check()" />
 				</view>
 			</view>
-			<view class="flex mgt12 pd3">
+			<view class="flex mgt18">
+				<span>备注：</span>
+				<view class="text pdt6 ">
+					<u--textarea v-model="remarks" type="text" border="bottom" placeholder="备注(非必填限45字)"
+						:disabled="input" maxlength="45">
+					</u--textarea>
+				</view>
+			</view>
+			<view class="flex mgt18 pd3">
 				<span>状态：</span>
 				<view class="flex">
 					<view class="mgr16">{{statusContent?"已借出":"未借出"}}</view>
@@ -54,11 +62,13 @@
 					<uni-tr>
 						<uni-th width="80px">姓名</uni-th>
 						<uni-th width="100px">手机号</uni-th>
-						<uni-th>状态</uni-th>
+						<uni-th width="60px">状态</uni-th>
 						<!-- 开关 自己品 -->
-						<uni-th @tap="record.reverse();on=!on">时间 &nbsp;{{on?"△":"▽"}}</uni-th>
+						<uni-th width="195px" @tap="record.reverse();on=!on">时间 &nbsp;{{on?"▽":"△"}}</uni-th>
+						<uni-th width="60px">备注</uni-th>
 					</uni-tr>
 					<!-- 表格数据行 -->
+					<u-modal :show="modal" mode="center" @confirm="modal=false" title="备注" :content="modaltext==null?'没有填写任何备注':modaltext"></u-modal>
 					<uni-tr v-for="(item, index) in record" :key="index">
 						<uni-td>{{item.name}}</uni-td>
 						<uni-td @tap="setClipboard(item.phone)">{{item.phone}}</uni-td>
@@ -66,9 +76,10 @@
 							<u--text :type='item.status?"success":"error"' :text='item.status?"借出":"归还"'></u--text>
 						</uni-td>
 						<uni-td>{{item.time}}</uni-td>
+						<uni-td>
+							<u--text type="primary" text="显示" @tap="modal=true;modaltext=item.remarks"></u--text>
+						</uni-td>
 					</uni-tr>
-
-
 				</uni-table>
 			</scroll-view>
 
@@ -92,7 +103,7 @@
 			return {
 				stock: [],
 				record: null,
-				value: null,
+				value: false,
 				status: false,
 				id: null,
 				statusContent: null,
@@ -105,7 +116,11 @@
 				focus: false,
 				offset: 0,
 				limit: 6,
-				on:true
+				on: true,
+				remarks: null,
+				i: 0,
+				modal: false,
+				modaltext: null
 			}
 		},
 		onLoad,

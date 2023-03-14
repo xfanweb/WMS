@@ -9891,16 +9891,16 @@ var y = "development" === "development",
         "127.0.0.1",
         "192.168.80.91"
     ],
-    "debugPort": 9001,
+    "debugPort": 9000,
     "initialLaunchType": "remote",
-    "servePort": 7001,
+    "servePort": 7000,
     "skipFiles": [
         "<node_internals>/**",
         "D:/HBuilderX.3.7.3.20230223/plugins/unicloud/**/*.js"
     ]
 }
 ),
-  I = m([{"provider":"aliyun","spaceName":"wms","spaceId":"mp-0b6eef0d-721f-4cc8-892a-c563b93a1d21","clientSecret":"aOdqZHZKLPT4a2o89HvmpA==","endpoint":"https://api.next.bspapp.com"}]) || [],
+  I = m([{"provider":"aliyun","spaceName":"wms","spaceId":"mp-7decc600-95e3-4d15-b73f-1da59a4c5996","clientSecret":"P5BSEzMx+eTZu7LDwU0Bjw==","endpoint":"https://api.next.bspapp.com"}]) || [],
   b = true;
 var T = "";
 try {
@@ -26370,6 +26370,7 @@ function onLoad(options) {
     that.stock = res.result.data; // stock表里的数据
     that.name = that.stock[0].name; // 姓名
     that.phone = that.stock[0].phone; // 手机号
+    that.remarks = that.stock[0].remarks; // 备注
     that.statusContent = that.stock[0].status; //借出状态
     that.value = that.stock[0].status; // u-switch 双向绑定 依据借出状态
     that.input = that.stock[0].status; // u-input 双向绑定 依据借出状态
@@ -26383,7 +26384,7 @@ function onLoad(options) {
   });
 
   (0, _App.execSql)('wms', (0, _App.objValue)('record', 'queryRecord', that.id, null, null, null, null, that.offset, that.limit), function (res) {
-    that.record = res.result.data;
+    that.record = res.result.data.reverse(); // 根据最新时间进行排序
     that.recordArray = that.record; // 存进recordArray数组 模糊搜索所需参数
     that.offset += that.limit; // 更新offset变量的值
   });
@@ -26403,18 +26404,31 @@ function change() {
   var that = this;
   var namereg = /^[\u4e00-\u9fa5]{2,4}$/; // 姓名正则
   var phonereg = /^1[3456789]\d{9}$/; // 手机号正则
+  if (!namereg.test(that.name) || !phonereg.test(that.phone)) {
+    that.show = false; // 将switch隐藏
+    that.value = false; // 将switch状态设置为未借出
+    // 正则判断 符合则更新 不符合则弹窗提示
+    uni.showToast({
+      title: '请检查',
+      icon: 'error'
+    });
+  } else {
+    update();
+  }
   // 更新库存、记录状态
   function update() {
     that.status = true;
     that.statusContent = !that.statusContent;
-    // objValue(tablename, api, id, name, phone, time, status)
-    // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态) 没有填null
-    (0, _App.execSql)('wms', (0, _App.objValue)('record', 'addRecord', that.id, that.name.trim(), that.phone.trim(), (0, _App.time)(), that.value), function (res) {
-      (0, _App.execSql)('wms', (0, _App.objValue)('stock', 'updateStock', that.id, that.name.trim(), that.phone.trim(), null, that.value), function (res) {
+    that.remarks !== null ? that.remarks.trim() : false;
+    // objValue(tablename, api, id, name, phone, time, status, offset, limit, remarks)
+    // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量,备注) 没有填null
+    (0, _App.execSql)('wms', (0, _App.objValue)('record', 'addRecord', that.id, that.name.trim(), that.phone.trim(), (0, _App.time)(), that.value, null, null, that.remarks), function (res) {
+      (0, _App.execSql)('wms', (0, _App.objValue)('stock', 'updateStock', that.id, that.name.trim(), that.phone.trim(), null, that.value, null, null, that.remarks), function (res) {
         that.input = false; // 解除输入框禁用
         var title = that.value == false ? "归还成功" : "借出成功"; // 定义弹窗文字
         that.name = ""; // 姓名清空
         that.phone = ""; // 手机号清空
+        that.remarks = ""; // 备注清空
         uni.showToast({
           title: title,
           icon: 'success'
@@ -26424,15 +26438,6 @@ function change() {
         }, 1600);
       });
     });
-  }
-  if (!namereg.test(that.name) || !phonereg.test(that.phone)) {
-    // 正则判断 符合则更新 不符合则弹窗提示
-    uni.showToast({
-      title: '请检查',
-      icon: 'error'
-    });
-  } else {
-    update();
   }
 }
 // 模糊搜索
@@ -26458,12 +26463,19 @@ function check() {
   var that = this;
   var namereg = /^[\u4e00-\u9fa5]{2,4}$/; // 姓名正则
   var phonereg = /^1[3456789]\d{9}$/; // 手机号正则
+  // 由于YuYa异于常人的思维方式导致校验方法改了N遍 特此吐槽  --Xiaofan
   if (that.name !== null && that.phone !== null) {
-    // 正则判断 符合则进行下一步 不符合则弹窗提示
-    namereg.test(that.name) && phonereg.test(that.phone) ? that.show = true : uni.showToast({
-      title: '请检查',
-      icon: 'error'
-    });
+    // 正则校验 符合则进行下一步 不符合则弹窗提示
+    if (namereg.test(that.name) && phonereg.test(that.phone)) {
+      that.show = true; // 校验成功后显示switch
+    } else {
+      that.show = false; // 将switch隐藏
+      that.value = false; // 将switch状态设置为未借出
+      uni.showToast({
+        title: '请检查',
+        icon: 'error'
+      });
+    }
   }
 }
 /* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
@@ -28505,6 +28517,344 @@ var _default = {
     text: {
       type: String,
       default: uni.$u.props.link.text
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 344 */,
+/* 345 */,
+/* 346 */,
+/* 347 */,
+/* 348 */,
+/* 349 */,
+/* 350 */,
+/* 351 */,
+/* 352 */,
+/* 353 */,
+/* 354 */,
+/* 355 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */
+/*!***************************************************************************!*\
+  !*** E:/project/WMS/node_modules/uview-ui/components/u-textarea/props.js ***!
+  \***************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 输入框的内容
+    value: {
+      type: [String, Number],
+      default: uni.$u.props.textarea.value
+    },
+    // 输入框为空时占位符
+    placeholder: {
+      type: [String, Number],
+      default: uni.$u.props.textarea.placeholder
+    },
+    // 指定placeholder的样式类，注意页面或组件的style中写了scoped时，需要在类名前写/deep/
+    placeholderClass: {
+      type: String,
+      default: uni.$u.props.input.placeholderClass
+    },
+    // 指定placeholder的样式
+    placeholderStyle: {
+      type: [String, Object],
+      default: uni.$u.props.input.placeholderStyle
+    },
+    // 输入框高度
+    height: {
+      type: [String, Number],
+      default: uni.$u.props.textarea.height
+    },
+    // 设置键盘右下角按钮的文字，仅微信小程序，App-vue和H5有效
+    confirmType: {
+      type: String,
+      default: uni.$u.props.textarea.confirmType
+    },
+    // 是否禁用
+    disabled: {
+      type: Boolean,
+      default: uni.$u.props.textarea.disabled
+    },
+    // 是否显示统计字数
+    count: {
+      type: Boolean,
+      default: uni.$u.props.textarea.count
+    },
+    // 是否自动获取焦点，nvue不支持，H5取决于浏览器的实现
+    focus: {
+      type: Boolean,
+      default: uni.$u.props.textarea.focus
+    },
+    // 是否自动增加高度
+    autoHeight: {
+      type: Boolean,
+      default: uni.$u.props.textarea.autoHeight
+    },
+    // 如果textarea是在一个position:fixed的区域，需要显示指定属性fixed为true
+    fixed: {
+      type: Boolean,
+      default: uni.$u.props.textarea.fixed
+    },
+    // 指定光标与键盘的距离
+    cursorSpacing: {
+      type: Number,
+      default: uni.$u.props.textarea.cursorSpacing
+    },
+    // 指定focus时的光标位置
+    cursor: {
+      type: [String, Number],
+      default: uni.$u.props.textarea.cursor
+    },
+    // 是否显示键盘上方带有”完成“按钮那一栏，
+    showConfirmBar: {
+      type: Boolean,
+      default: uni.$u.props.textarea.showConfirmBar
+    },
+    // 光标起始位置，自动聚焦时有效，需与selection-end搭配使用
+    selectionStart: {
+      type: Number,
+      default: uni.$u.props.textarea.selectionStart
+    },
+    // 光标结束位置，自动聚焦时有效，需与selection-start搭配使用
+    selectionEnd: {
+      type: Number,
+      default: uni.$u.props.textarea.selectionEnd
+    },
+    // 键盘弹起时，是否自动上推页面
+    adjustPosition: {
+      type: Boolean,
+      default: uni.$u.props.textarea.adjustPosition
+    },
+    // 是否去掉 iOS 下的默认内边距，只微信小程序有效
+    disableDefaultPadding: {
+      type: Boolean,
+      default: uni.$u.props.textarea.disableDefaultPadding
+    },
+    // focus时，点击页面的时候不收起键盘，只微信小程序有效
+    holdKeyboard: {
+      type: Boolean,
+      default: uni.$u.props.textarea.holdKeyboard
+    },
+    // 最大输入长度，设置为 -1 的时候不限制最大长度
+    maxlength: {
+      type: [String, Number],
+      default: uni.$u.props.textarea.maxlength
+    },
+    // 边框类型，surround-四周边框，bottom-底部边框
+    border: {
+      type: String,
+      default: uni.$u.props.textarea.border
+    },
+    // 用于处理或者过滤输入框内容的方法
+    formatter: {
+      type: [Function, null],
+      default: uni.$u.props.textarea.formatter
+    },
+    // 是否忽略组件内对文本合成系统事件的处理
+    ignoreCompositionEvent: {
+      type: Boolean,
+      default: true
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */
+/*!************************************************************************!*\
+  !*** E:/project/WMS/node_modules/uview-ui/components/u-modal/props.js ***!
+  \************************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    // 是否展示modal
+    show: {
+      type: Boolean,
+      default: uni.$u.props.modal.show
+    },
+    // 标题
+    title: {
+      type: [String],
+      default: uni.$u.props.modal.title
+    },
+    // 弹窗内容
+    content: {
+      type: String,
+      default: uni.$u.props.modal.content
+    },
+    // 确认文案
+    confirmText: {
+      type: String,
+      default: uni.$u.props.modal.confirmText
+    },
+    // 取消文案
+    cancelText: {
+      type: String,
+      default: uni.$u.props.modal.cancelText
+    },
+    // 是否显示确认按钮
+    showConfirmButton: {
+      type: Boolean,
+      default: uni.$u.props.modal.showConfirmButton
+    },
+    // 是否显示取消按钮
+    showCancelButton: {
+      type: Boolean,
+      default: uni.$u.props.modal.showCancelButton
+    },
+    // 确认按钮颜色
+    confirmColor: {
+      type: String,
+      default: uni.$u.props.modal.confirmColor
+    },
+    // 取消文字颜色
+    cancelColor: {
+      type: String,
+      default: uni.$u.props.modal.cancelColor
+    },
+    // 对调确认和取消的位置
+    buttonReverse: {
+      type: Boolean,
+      default: uni.$u.props.modal.buttonReverse
+    },
+    // 是否开启缩放效果
+    zoom: {
+      type: Boolean,
+      default: uni.$u.props.modal.zoom
+    },
+    // 是否异步关闭，只对确定按钮有效
+    asyncClose: {
+      type: Boolean,
+      default: uni.$u.props.modal.asyncClose
+    },
+    // 是否允许点击遮罩关闭modal
+    closeOnClickOverlay: {
+      type: Boolean,
+      default: uni.$u.props.modal.closeOnClickOverlay
+    },
+    // 给一个负的margin-top，往上偏移，避免和键盘重合的情况
+    negativeTop: {
+      type: [String, Number],
+      default: uni.$u.props.modal.negativeTop
+    },
+    // modal宽度，不支持百分比，可以数值，px，rpx单位
+    width: {
+      type: [String, Number],
+      default: uni.$u.props.modal.width
+    },
+    // 确认按钮的样式，circle-圆形，square-方形，如设置，将不会显示取消按钮
+    confirmButtonShape: {
+      type: String,
+      default: uni.$u.props.modal.confirmButtonShape
+    }
+  }
+};
+exports.default = _default;
+/* WEBPACK VAR INJECTION */}.call(this, __webpack_require__(/*! ./node_modules/@dcloudio/uni-mp-weixin/dist/index.js */ 2)["default"]))
+
+/***/ }),
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */
+/*!***********************************************************************!*\
+  !*** E:/project/WMS/node_modules/uview-ui/components/u-line/props.js ***!
+  \***********************************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+/* WEBPACK VAR INJECTION */(function(uni) {
+
+Object.defineProperty(exports, "__esModule", {
+  value: true
+});
+exports.default = void 0;
+var _default = {
+  props: {
+    color: {
+      type: String,
+      default: uni.$u.props.line.color
+    },
+    // 长度，竖向时表现为高度，横向时表现为长度，可以为百分比，带px单位的值等
+    length: {
+      type: [String, Number],
+      default: uni.$u.props.line.length
+    },
+    // 线条方向，col-竖向，row-横向
+    direction: {
+      type: String,
+      default: uni.$u.props.line.direction
+    },
+    // 是否显示细边框
+    hairline: {
+      type: Boolean,
+      default: uni.$u.props.line.hairline
+    },
+    // 线条与上下左右元素的间距，字符串形式，如"30px"、"20px 30px"
+    margin: {
+      type: [String, Number],
+      default: uni.$u.props.line.margin
+    },
+    // 是否虚线，true-虚线，false-实线
+    dashed: {
+      type: Boolean,
+      default: uni.$u.props.line.dashed
     }
   }
 };

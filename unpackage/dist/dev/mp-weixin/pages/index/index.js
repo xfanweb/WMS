@@ -350,9 +350,9 @@ var _default = {
   onHide: function onHide() {}
 }; // 操作数据库对象
 exports.default = _default;
-function objValue(tablename, api, id, name, phone, time, status, offset, limit) {
-  // objValue(tablename, api, id, name, phone, time, status, offset, limit)
-  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量)
+function objValue(tablename, api, id, name, phone, time, status, offset, limit, remarks) {
+  // objValue(tablename, api, id, name, phone, time, status, offset, limit, remarks)
+  // objValue(表名,进行的api指令,设备id,姓名,手机号,时间,状态,查询的起始位置,每次查询的数量,备注)
   var object = {
     tablename: tablename,
     api: api,
@@ -362,7 +362,8 @@ function objValue(tablename, api, id, name, phone, time, status, offset, limit) 
     time: time,
     status: status,
     offset: offset,
-    limit: limit
+    limit: limit,
+    remarks: remarks
   };
   return object;
 }

@@ -2,11 +2,13 @@
   "navigationBarTitleText": "库存详情",
   "usingComponents": {
     "u-input": "/node-modules/uview-ui/components/u-input/u-input",
+    "u--textarea": "/node-modules/uview-ui/components/u--textarea/u--textarea",
     "u-switch": "/node-modules/uview-ui/components/u-switch/u-switch",
     "u-search": "/node-modules/uview-ui/components/u-search/u-search",
     "uni-table": "/node-modules/@dcloudio/uni-ui/lib/uni-table/uni-table",
     "uni-tr": "/node-modules/@dcloudio/uni-ui/lib/uni-tr/uni-tr",
     "uni-th": "/node-modules/@dcloudio/uni-ui/lib/uni-th/uni-th",
+    "u-modal": "/node-modules/uview-ui/components/u-modal/u-modal",
     "uni-td": "/node-modules/@dcloudio/uni-ui/lib/uni-td/uni-td",
     "u--text": "/node-modules/uview-ui/components/u--text/u--text"
   }

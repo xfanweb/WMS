@@ -17,14 +17,16 @@ exports.main = async (event, context) => {
 		case 'updateStock':
 			if (!event.status) {
 				event.name = null;
-				event.phone = null
+				event.phone = null;
+				event.remarks = null;
 			}
 			return await db.collection(tablename).where({
 				id: event.id
 			}).update({
 				name: event.name,
 				phone: event.phone,
-				status: event.status
+				status: event.status,
+				remarks: event.remarks
 			})
 
 		case 'addRecord':
@@ -33,7 +35,8 @@ exports.main = async (event, context) => {
 				name: event.name,
 				phone: event.phone,
 				time: event.time,
-				status: event.status
+				status: event.status,
+				remarks: event.remarks
 			})
 	}
 }
